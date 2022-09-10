@@ -1,0 +1,28 @@
+.icon {
+  cursor: pointer;
+  display: inline-block;
+  min-width: 15px;
+  min-height: 13px;
+  background-color: #666687;
+  mask-repeat: no-repeat;
+  -webkit-mask-repeat: no-repeat;
+  mask-size: contain;
+  -webkit-mask-size: contain;
+  mask-position: center;
+  -webkit-mask-position: center;
+}
+
+.icon.icon-password-eye {
+  mask-image: url("../icon/passwordEye.svg");
+  -webkit-mask-image: url("../icon/passwordEye.svg");
+}
+
+.icon.icon-home {
+  mask-image: url("../icon/home.svg");
+  -webkit-mask-image: url("../icon/home.svg");
+}
+
+.icon.icon-person {
+  mask-image: url("../icon/person.svg");
+  -webkit-mask-image: url("../icon/person.svg");
+}
