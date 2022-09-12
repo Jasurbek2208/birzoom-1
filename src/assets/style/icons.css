@@ -26,3 +26,8 @@
   mask-image: url("../icon/person.svg");
   -webkit-mask-image: url("../icon/person.svg");
 }
+
+.icon.icon-sidebarMain {
+  mask-image: url("../icon/sidebarMain.svg");
+  -webkit-mask-image: url("../icon/sidebarMain.svg");
+}
