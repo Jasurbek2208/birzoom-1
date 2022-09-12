@@ -11,5 +11,6 @@ export const GlobalStyle = createGlobalStyle`
         font-style: normal;
         font-weight: 400;
         font-family: 'Roboto', sans-serif;
+        list-style: none;
     }
 `;
