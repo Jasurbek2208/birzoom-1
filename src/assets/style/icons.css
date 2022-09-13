@@ -31,3 +31,8 @@
   mask-image: url("../icon/sidebarMain.svg");
   -webkit-mask-image: url("../icon/sidebarMain.svg");
 }
+
+.icon.icon-search {
+  mask-image: url("../icon/search.svg");
+  -webkit-mask-image: url("../icon/search.svg");
+}

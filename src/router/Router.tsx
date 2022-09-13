@@ -7,6 +7,7 @@ import Login from "../pages/auth/Login";
 // ADMIN
 import AdminLayout from "../layouts/AdminLayout";
 import Teachers from "../pages/admin/teachers/Teachers";
+import AddTeacher from "../components/addTeacher/AddTeacher";
 
 export default function Router() {
   const isAuth = localStorage.getItem("ISAUTH") || false;
@@ -36,7 +37,7 @@ export default function Router() {
         </>
       ) : (
         <Route element={<AdminLayout />}>
-          <Route path="teachers" element={<Teachers />} />
+          <Route path="teachers" element={<AddTeacher />} />
           <Route path="*" element={<Navigate to="teachers" />} />
         </Route>
       )}
