@@ -5,11 +5,12 @@ export interface IInput {
   inputOn?: string;
   label?: string;
   option?: {};
-  value: string;
+  value?: string;
   placeholder?: string;
   type?: string;
   required?: boolean;
-  onChange: ChangeEventHandler<HTMLInputElement>;
+  defaultValue?: string | number;
+  onChange?: ChangeEventHandler<HTMLInputElement>;
 }
 
 // Checkbox interface
@@ -23,6 +24,8 @@ export interface IButton {
   type: "button" | "submit";
   children: React.ReactNode;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  closeBtn?: boolean;
+  btnSmall?: boolean;
 }
 
 export interface ILoginContext {

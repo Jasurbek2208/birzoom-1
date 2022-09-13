@@ -1,5 +1,9 @@
-import React from "react";
+// Firebase get users
+import { collection, getDocs } from "firebase/firestore"; 
+
 import styled from "styled-components";
+
+// Components
 import Button from "../../../components/button/Button";
 import DataTable from "../../../components/table/Table";
 

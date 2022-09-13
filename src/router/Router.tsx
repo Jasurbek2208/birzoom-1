@@ -37,7 +37,7 @@ export default function Router() {
         </>
       ) : (
         <Route element={<AdminLayout />}>
-          <Route path="teachers" element={<AddTeacher />} />
+          <Route path="teachers" element={<Teachers />} />
           <Route path="*" element={<Navigate to="teachers" />} />
         </Route>
       )}

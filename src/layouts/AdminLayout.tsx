@@ -21,5 +21,6 @@ const StyledLayout = styled.div`
 
   .wrapper {
     width: 100%;
+    margin: 77px 0px 0px 224px;
   }
 `;

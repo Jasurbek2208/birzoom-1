@@ -22,6 +22,8 @@ export default function Navbar() {
   );
 }
 const StyledNavbar = styled.div`
+  position: fixed;
+  top: 0px;
   padding: 16px 40px 16px 24px;
   width: 100%;
   display: flex;

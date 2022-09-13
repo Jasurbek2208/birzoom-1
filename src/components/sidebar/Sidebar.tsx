@@ -40,6 +40,7 @@ export default function Sidebar() {
 
 const StyledSidebar = styled.div`
   position: relative;
+  position: fixed;
   width: 224px;
   height: 100vh;
   background-color: #fff;

@@ -1,11 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // Interface
 import { IButton } from "../../interfaces/Interface";
 
-export default function Button({ children, onClick, type }: IButton) {
+export default function Button({
+  children,
+  onClick,
+  type,
+  btnSmall,
+  closeBtn,
+}: IButton) {
   return (
-    <StyledButton>
+    <StyledButton btnSmall={btnSmall} closeBtn={closeBtn}>
       <button className="button" type={type} onClick={onClick}>
         {children}
       </button>
@@ -13,7 +19,7 @@ export default function Button({ children, onClick, type }: IButton) {
   );
 }
 
-const StyledButton = styled.div`
+const StyledButton = styled.div<any>`
   .button {
     cursor: pointer;
     padding: 12px 28px;
@@ -43,5 +49,26 @@ const StyledButton = styled.div`
       transform: translateY(2px);
       background: #0088ffdc;
     }
+
+    ${({ btnSmall }: any) => {
+      if (btnSmall) {
+        return css`
+          padding: 9px 28px;
+          font-weight: 500;
+          font-size: 12px;
+        `;
+      }
+    }}
+
+    ${({ closeBtn }: any) => {
+      if (closeBtn) {
+        return css`
+          color: #666687;
+          background-color: #fff0;
+          border: 1px solid #dcdce4;
+          border-radius: 4px;
+        `;
+      }
+    }}
   }
 `;

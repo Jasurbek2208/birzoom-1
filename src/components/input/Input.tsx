@@ -11,6 +11,7 @@ export default function Input({
   required,
   onChange,
   inputOn,
+  defaultValue,
   option,
 }: IInput) {
   return (
@@ -19,6 +20,7 @@ export default function Input({
       <input
         type={type}
         value={value}
+        defaultValue={defaultValue}
         {...option}
         placeholder={placeholder || ""}
         required={required}
@@ -29,6 +31,7 @@ export default function Input({
 }
 
 const StyledInput = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 4px;
