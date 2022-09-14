@@ -12,7 +12,7 @@ export default function Navbar() {
       </div>
       <ul className="right">
         <li className="list select-wrapper">
-          <MySelect />
+          <MySelect list={["Uzb", "Rus", "Eng"]} placeholder="language" />
         </li>
         <li className="list">
           <img src={userAvatar} alt="userAvatar.png" />
@@ -24,12 +24,13 @@ export default function Navbar() {
 const StyledNavbar = styled.div`
   position: fixed;
   top: 0px;
-  padding: 16px 40px 16px 24px;
+  padding: 16px 264px 16px 24px;
   width: 100%;
   display: flex;
   justify-content: space-between;
   background: #fff;
   border-bottom: 1px solid #eaeaef;
+  z-index: 5;
 
   .left {
     h1 {

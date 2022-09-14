@@ -1,32 +1,28 @@
+import styled from "styled-components";
+
 // Firebase
 import { collection, addDoc } from "firebase/firestore";
 import { db } from "../../firebase";
 
-import styled from "styled-components";
-
 // Components
 import Button from "../button/Button";
 import Input from "../input/Input";
+import MySelect from "../select/Select";
 
 // React Hook
 import { useForm, SubmitHandler } from "react-hook-form";
-import { useEffect } from "react";
 
 // Interface
-// type Inputs = {
-//   example: string;
-//   exampleRequired: string;
-// };
+import { IUsers } from "../../interfaces/Interface";
 
-export default function InputAddForm() {
+export default function InputAddForm({ setOpenAdd }: any) {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<any>();
-  const onSubmit: SubmitHandler<any> = async (data) => {
-    console.log(data);
-
+  } = useForm<IUsers>();
+  const onSubmit: SubmitHandler<IUsers> = async (data) => {
+    data.id = data.tgUsername + data.telefonRaqam;
     try {
       const docRef = await addDoc(collection(db, "users"), data);
       console.log("Document written with ID: ", docRef.id);
@@ -56,6 +52,15 @@ export default function InputAddForm() {
               placeholder="familiyangizni kiriting"
               defaultValue=""
               option={{ ...register("familiya") }}
+            />
+          </div>
+
+          <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("jinsi") }}
+              list={["erkak", "ayol"]}
+              label="Jinsi*"
+              placeholder="jinsingizni belgilang"
             />
           </div>
 
@@ -109,6 +114,33 @@ export default function InputAddForm() {
           </div>
 
           <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("faoliyatTuri") }}
+              placeholder="faoliyat turiingizni kiriting"
+              label="Faoliyat turi*"
+              list={["O'qituvchi", "Ustoz", "Yordamchi"]}
+            />
+          </div>
+
+          <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("fani") }}
+              placeholder="faningizni kiriting"
+              label="Fani*"
+              list={["Ingliz tili", "Rus tili", "Arab tili"]}
+            />
+          </div>
+
+          <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("tilDarajasi") }}
+              placeholder="til darajangizni kiriting"
+              label="Til darajasi*"
+              list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
+            />
+          </div>
+
+          <div className="input__wrapper">
             <Input
               type="number"
               label="Karta raqami"
@@ -128,6 +160,15 @@ export default function InputAddForm() {
           </div>
 
           <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("holati") }}
+              placeholder="holatingizni kiriting"
+              label="Holati"
+              list={["Faol", "Nofaol"]}
+            />
+          </div>
+
+          <div className="input__wrapper">
             <Input
               type="text"
               label="Zoom link*"
@@ -136,12 +177,30 @@ export default function InputAddForm() {
               option={{ ...register("zoomLink") }}
             />
           </div>
+
+          <div className="input__wrapper">
+            <MySelect
+              option={{ ...register("darsOtishDarajasi") }}
+              placeholder="dars o'tish darajangiz"
+              label="Qaysi darajaga dars o’tishi*"
+              list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
+            />
+          </div>
         </div>
         <div className="buttons__wrapper">
-          <Button btnSmall={true} closeBtn={true} type="button">
+          <Button
+            onClick={() => setOpenAdd(false)}
+            btnSmall={true}
+            closeBtn={true}
+            type="button"
+          >
             Bekor qilish
           </Button>
-          <Button btnSmall={true} type="submit">
+          <Button
+            onClick={() => setOpenAdd(false)}
+            btnSmall={true}
+            type="submit"
+          >
             Saqlash
           </Button>
         </div>
@@ -156,17 +215,17 @@ const StyledInputForm = styled.div`
   height: 100%;
 
   form {
-    width: 100%;
     height: 100%;
 
     .inputs__wrapper {
       display: flex;
-      gap: 24px;
+      justify-content: space-between;
+      gap: 20px;
       row-gap: 24px;
       flex-wrap: wrap;
 
       .input__wrapper {
-        width: 376px;
+        width: 360px;
       }
     }
 

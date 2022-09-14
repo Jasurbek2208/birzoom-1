@@ -53,7 +53,7 @@ const StyledButton = styled.div<any>`
     ${({ btnSmall }: any) => {
       if (btnSmall) {
         return css`
-          padding: 9px 28px;
+          padding: 9px 25px;
           font-weight: 500;
           font-size: 12px;
         `;

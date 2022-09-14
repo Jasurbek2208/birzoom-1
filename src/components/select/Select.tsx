@@ -1,32 +1,73 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { useState } from "react";
+import styled from "styled-components";
 
-export default function MySelect() {
-  const [language, setLanguage] = useState("");
+// Interface
+import { ISelect } from "../../interfaces/Interface";
+
+export default function MySelect({
+  list,
+  label,
+  placeholder,
+  option,
+}: ISelect) {
+  const [selectValue, setSelectValue] = useState("");
 
   function handleChange(e: any) {
-    setLanguage(e.target.value);
+    setSelectValue(e.target.value);
   }
 
   return (
-    <>
-      <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label" style={{ marginTop: "-8px" }}>
-          Language
-        </InputLabel>
+    <StyledSelect>
+      <label
+        style={{
+          fontWeight: "600",
+          fontSize: "12px",
+          lineHeight: "16px",
+          color: "#32324D",
+          marginBottom: "4px",
+        }}
+      >
+        {label}
+      </label>
+
+      <FormControl
+        sx={{ m: 1, minWidth: 120 }}
+        fullWidth
+        style={{ position: "relative" }}
+      >
+        {!selectValue ? <p className="placeholder">{placeholder}</p> : null}
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={language}
-          label="language"
+          {...option}
+          value={selectValue}
           onChange={handleChange}
-          style={{ border: "none", outline: "none", height: "40px" }}
+          displayEmpty
+          defaultValue="Uzb"
+          style={{ height: "38px", width: "100%", margin: "0px" }}
         >
-          <MenuItem value={10}>Uz</MenuItem>
-          <MenuItem value={20}>Eng</MenuItem>
-          <MenuItem value={30}>Ru</MenuItem>
+          {list.map((i: any) => (
+            <MenuItem key={i} value={i}>
+              {i}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
-    </>
+    </StyledSelect>
   );
 }
+
+const StyledSelect = styled.div`
+  .MuiFormControl-root {
+    position: relative;
+    margin: 0px !important;
+  }
+
+  .placeholder {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #8e8ea9;
+  }
+`;

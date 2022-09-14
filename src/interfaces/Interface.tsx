@@ -28,7 +28,36 @@ export interface IButton {
   btnSmall?: boolean;
 }
 
+// Select
+export interface ISelect {
+  list: String[];
+  label?: string;
+  placeholder: string;
+  option?: {};
+}
+
 export interface ILoginContext {
   isAuth?: boolean;
   setIsAuth?: Function;
+}
+
+// db Users
+export interface IUsers {
+  id: string;
+  ism: string;
+  familiya: string;
+  manzil: string;
+  telefonRaqam: string;
+  parol: string;
+  tugilganSana: string;
+  tgUsername: string;
+  kartaRaqam: number;
+  shior: string;
+  zoomLink: string;
+  darsOtishDarajasi: string;
+  jinsi: string;
+  faoliyatTuri: string;
+  fani: string;
+  tilDarajasi: string;
+  holati: string;
 }

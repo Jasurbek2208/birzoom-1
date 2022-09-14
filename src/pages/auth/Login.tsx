@@ -26,13 +26,14 @@ interface Inputs {
 }
 
 export default function Login(): any {
+  const { setIsAuth } = useContext<ILoginContext>(LoginContext);
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm();
-  const { setIsAuth } = useContext<ILoginContext>(LoginContext);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,11 +41,11 @@ export default function Login(): any {
   const [inputOnEmail, setInputOnEmail] = useState("");
   const navigate = useNavigate();
 
-  // const onSubmit = (data: {}) => {
-  //   console.log(data);
+  const onSubmit = (data: {}) => {
+    console.log(data);
 
-  //   userLogin();
-  // };
+    userLogin();
+  };
 
   // Firebase ===============
   const userLogin = () => {
@@ -52,9 +53,9 @@ export default function Login(): any {
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        if (setIsAuth) setIsAuth(true);
-        console.log(user);
+
         localStorage.setItem("ISAUTH", "true");
+        if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
         navigate("/");
@@ -64,7 +65,7 @@ export default function Login(): any {
         const errorMessage = error.message;
         localStorage.removeItem("ISAUTH");
       });
-  }
+  };
   return (
     <StyledLogin>
       <div className="login__wrapper">
@@ -106,7 +107,9 @@ export default function Login(): any {
           />
           <MyCheckbox label="Remember me" required={true} />
           {errors.exampleRequired && <span>This field is required</span>}
-          <Button onClick={userLogin} type="button">Login</Button>
+          <Button onClick={userLogin} type="button">
+            Login
+          </Button>
         </form>
       </div>
     </StyledLogin>

@@ -1,13 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Button from "../button/Button";
 
 // Images
 import inputImg from "../../assets/img/inputImg.png";
 import InputAddForm from "../inpuAddForm/InputAddForm";
 
-export default function () {
+export default function ({ openAdd, setOpenAdd }: any) {
   return (
-    <StyledAddPage>
+    <StyledAddPage openAdd={openAdd}>
       <div className="left">
         <p>Rasm*</p>
         <div className="img__wrapper">
@@ -21,20 +21,35 @@ export default function () {
         </div>
       </div>
       <div className="right">
-        <InputAddForm />
+        <InputAddForm setOpenAdd={setOpenAdd} />
       </div>
     </StyledAddPage>
   );
 }
 
-const StyledAddPage = styled.div`
+const StyledAddPage = styled.div<any>`
   padding: 25px;
+
+  position: absolute;
+  top: -1500px;
+  right: 0px;
+  transition: 0.3s;
+  background-color: #f5f5f5;
+
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 24px;
+  z-index: 2;
+
+  ${({ openAdd }) => {
+    if (openAdd)
+      return css`
+        top: 8px;
+      `;
+  }}
 
   .left {
     padding: 16px;
@@ -75,14 +90,13 @@ const StyledAddPage = styled.div`
     }
 
     .button__wrapper {
-      padding: 16px 49px 0px;
+      padding: 16px 30px 0px;
       width: 100%;
     }
   }
 
   .right {
-    width: 100%;
-    height: 100%;
+    width: 74%;
     background-color: #fff;
     border: 0.5px solid #eaeaef;
     border-radius: 4px;

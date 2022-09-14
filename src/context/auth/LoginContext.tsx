@@ -2,8 +2,8 @@ import { createContext, useState } from "react";
 
 export const LoginContext = createContext({});
 
-export default function LoginContextApp() {
-  const [isAuth, setIsAuth] = useState(false);
+export default function LoginContextApp({ children }: any) {
+  const [isAuth, setIsAuth] = useState<boolean>(false);
 
   return (
     <LoginContext.Provider
@@ -11,6 +11,8 @@ export default function LoginContextApp() {
         isAuth,
         setIsAuth,
       }}
-    ></LoginContext.Provider>
+    >
+      {children}
+    </LoginContext.Provider>
   );
 }
