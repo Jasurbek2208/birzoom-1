@@ -6,7 +6,7 @@ export default function MyCheckbox({ required, label }: ICheckbox) {
   return (
     <StyledInput>
       <FormControlLabel
-        control={<Checkbox required={required} />}
+        control={<Checkbox defaultChecked required={required} />}
         label={label}
       />
     </StyledInput>

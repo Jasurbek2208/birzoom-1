@@ -31,7 +31,7 @@ const StyledAddPage = styled.div<any>`
   padding: 25px;
 
   position: absolute;
-  top: -1500px;
+  top: -3500px;
   right: 0px;
   transition: 0.3s;
   background-color: #f5f5f5;

@@ -9,10 +9,11 @@ export default function Button({
   type,
   btnSmall,
   closeBtn,
+  token,
 }: IButton) {
   return (
     <StyledButton btnSmall={btnSmall} closeBtn={closeBtn}>
-      <button className="button" type={type} onClick={onClick}>
+      <button className="button" disabled={token === "guest" ? true : false} type={type} onClick={onClick}>
         {children}
       </button>
     </StyledButton>
@@ -48,6 +49,13 @@ const StyledButton = styled.div<any>`
     :active {
       transform: translateY(2px);
       background: #0088ffdc;
+    }
+
+    :disabled {
+      cursor: not-allowed;
+      box-shadow: none;
+      background-color: #00539b92;
+      transform: translateY(0px);
     }
 
     ${({ btnSmall }: any) => {

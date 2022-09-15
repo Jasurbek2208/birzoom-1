@@ -3,7 +3,9 @@ import { createContext, useState } from "react";
 export const LoginContext = createContext({});
 
 export default function LoginContextApp({ children }: any) {
-  const [isAuth, setIsAuth] = useState<boolean>(false);
+  const [isAuth, setIsAuth] = useState<boolean>(
+    JSON.parse(localStorage.getItem("ISAUTH") || "false")
+  );
 
   return (
     <LoginContext.Provider

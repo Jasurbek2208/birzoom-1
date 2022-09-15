@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
@@ -6,9 +7,10 @@ import logo from "../../assets/img/logo.png";
 
 export default function Sidebar() {
   const location = useLocation().pathname;
+  const [small, isSmall] = useState(false);
 
   return (
-    <StyledSidebar>
+    <StyledSidebar className={small ? "On" : ""}>
       <div className="top">
         <img src={logo} alt="logo.png" />
       </div>
@@ -30,7 +32,7 @@ export default function Sidebar() {
         </ul>
       </div>
       <div className="bottom">
-        <div className="icon-wrapper">
+        <div className="icon-wrapper" onClick={() => isSmall((p) => !p)}>
           <i className="icon icon-sidebarMain"></i>
         </div>
       </div>
@@ -45,10 +47,12 @@ const StyledSidebar = styled.div`
   height: 100vh;
   background-color: #fff;
   border-right: 1px solid #eaeaef;
+  transition: 0.3s;
 
   .top {
     padding: 21px 12px;
     border-bottom: 1px solid #eaeaef;
+    transition: 0.3s;
 
     img {
       width: 138px;
@@ -58,6 +62,7 @@ const StyledSidebar = styled.div`
 
   .center {
     padding: 12px;
+    transition: 0.3s;
 
     h1 {
       margin: 29px 0px 12px 12px;
@@ -66,6 +71,7 @@ const StyledSidebar = styled.div`
       line-height: 16px;
       text-transform: uppercase;
       color: #666687;
+      transition: 0.3s;
     }
 
     .sidebar-navigate {
@@ -82,11 +88,13 @@ const StyledSidebar = styled.div`
           align-items: center;
           gap: 16px;
           text-decoration: none;
+          transition: 0.3s;
 
           p {
             font-size: 14px;
             line-height: 20px;
             color: #666687;
+            transition: 0.3s;
           }
 
           &.Active {
@@ -113,6 +121,60 @@ const StyledSidebar = styled.div`
       padding: 8px 7px;
       border: 1px solid #eaeaef;
       border-radius: 4px;
+    }
+  }
+
+  &.On {
+    width: 60px;
+    overflow: hidden;
+
+    .top {
+      padding: 21px 20px;
+    }
+
+    .center {
+      padding: 12px 0px;
+
+      h1 {
+        margin: 0px 0px 0px 11px;
+        font-weight: 500;
+      }
+
+      .sidebar-navigate {
+        .link {
+          a {
+            padding: 16px 21px;
+            gap: 25px;
+          }
+        }
+      }
+    }
+  }
+
+  @media (max-width: 678px) {
+    width: 60px;
+    overflow: hidden;
+
+    .top {
+      padding: 21px 20px;
+    }
+
+    .center {
+      padding: 12px 0px;
+
+      h1 {
+        margin: 0px 0px 0px 11px;
+        font-weight: 500;
+      }
+
+      .sidebar-navigate {
+        .link {
+          a {
+            padding: 16px 21px;
+            gap: 25px;
+          }
+        }
+      }
     }
   }
 `;

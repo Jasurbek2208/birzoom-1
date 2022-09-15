@@ -1,8 +1,10 @@
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import { useEffect, useState } from "react";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
-export default function DataTable({ users }: any) {
+// Interface
+import { IUsers } from "../../interfaces/Interface";
 
+export default function DataTable({ users, setUsersId }: any) {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },
     { field: "ism", headerName: "ISM FAMILIYA", width: 180 },
@@ -24,7 +26,6 @@ export default function DataTable({ users }: any) {
 
   useEffect(() => {
     const rowList: any = [];
-    console.log(users);
 
     users.forEach((i: any) => {
       let tempObj: any = {};
@@ -46,6 +47,7 @@ export default function DataTable({ users }: any) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        onSelectionModelChange={(e: any) => setUsersId(e)}
         style={{
           backgroundColor: "#fff",
         }}

@@ -26,6 +26,7 @@ export interface IButton {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
   closeBtn?: boolean;
   btnSmall?: boolean;
+  token?: string | null;
 }
 
 // Select

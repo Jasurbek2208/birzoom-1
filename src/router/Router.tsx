@@ -14,24 +14,35 @@ import { ILoginContext } from "../interfaces/Interface";
 
 export default function Router() {
   const { isAuth } = useContext<ILoginContext>(LoginContext);
-  const isAuthLocal = localStorage.getItem("ISAUTH") || false;
 
-  // useEffect(() => {
-  //   if (isAuthLocal)
-  //     return (
-  //       <Routes>
-  //       </Routes>
-  //     );
-  // }, [isAuth]);
+  const token = localStorage.getItem("$TOKEN");
+
+  useEffect(() => {}, []);
+
+  if (!isAuth) {
+    return (
+      <Routes>
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<Navigate to="login" />} />
+      </Routes>
+    );
+  }
+
+  if (token === "guest") {
+    return (
+      <Routes>
+        <Route path="/" element={<AdminLayout />} />
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    );
+  }
 
   return (
     <Routes>
-      <Route path="login" element={<Login />} />
-      <Route path="*" element={<Navigate to="login" />} />
-          <Route element={<AdminLayout />}>
-            <Route path="teachers" element={<Teachers />} />
-            <Route path="*" element={<Navigate to="teachers" />} />
-          </Route>
+      <Route element={<AdminLayout />}>
+        <Route path="/teachers" element={<Teachers />} />
+        <Route path="*" element={<Navigate to="teachers" />} />
+      </Route>
     </Routes>
   );
 }

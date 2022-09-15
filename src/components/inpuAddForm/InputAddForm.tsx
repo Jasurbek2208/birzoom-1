@@ -15,17 +15,20 @@ import { useForm, SubmitHandler } from "react-hook-form";
 // Interface
 import { IUsers } from "../../interfaces/Interface";
 
+// Images
+import ball from "../../assets/img/basketball 1.png";
+
 export default function InputAddForm({ setOpenAdd }: any) {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IUsers>();
+  
   const onSubmit: SubmitHandler<IUsers> = async (data) => {
     data.id = data.tgUsername + data.telefonRaqam;
     try {
       const docRef = await addDoc(collection(db, "users"), data);
-      console.log("Document written with ID: ", docRef.id);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -187,6 +190,48 @@ export default function InputAddForm({ setOpenAdd }: any) {
             />
           </div>
         </div>
+        <div className="interests__wrapper">
+          <p>Qiziqishlari</p>
+          <div className="bottom-grid">
+            <div>
+              <img src={ball} alt="img" />
+              <small>Kitoblar</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Iqtisod</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+            <div>
+              <img src={ball} alt="img" />
+              <small>Sayohat</small>
+            </div>
+          </div>
+        </div>
         <div className="buttons__wrapper">
           <Button
             onClick={() => setOpenAdd(false)}
@@ -226,6 +271,56 @@ const StyledInputForm = styled.div`
 
       .input__wrapper {
         width: 360px;
+      }
+    }
+
+    .interests__wrapper {
+      margin-top: 24px;
+      
+      p {
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+        letter-spacing: 0px;
+        text-align: left;
+        color: #32324d;
+        padding-bottom: 4px;
+      }
+      .bottom-grid {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+
+        div {
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 10px 14px;
+          border: 1px solid #dcdce4;
+          border-radius: 4px;
+          transition: .2s;
+          
+          &:hover {
+            transform: scale(106%);
+            box-shadow: 0px 0px 0px 1px #cecece9f;
+          }
+
+          &:active {
+            transform: translateY(2px);
+          }
+
+          small {
+            font-size: 14px;
+            padding-top: 4px;
+            font-weight: 400;
+            line-height: 20px;
+            letter-spacing: 0px;
+            text-align: left;
+            color: #8e8ea9;
+          }
+        }
       }
     }
 

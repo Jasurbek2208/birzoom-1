@@ -1,9 +1,11 @@
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MouseEvent, useContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import styled from "styled-components";
 
 // Firebase
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase";
 
 // IMAGES
 import logo from "../../assets/img/logo.png";
@@ -16,14 +18,6 @@ import Input from "../../components/input/Input";
 // Context
 import { LoginContext } from "../../context/auth/LoginContext";
 import { ILoginContext } from "../../interfaces/Interface";
-import { auth } from "../../firebase";
-import { useEffect } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-
-interface Inputs {
-  email: string;
-  password: string;
-}
 
 export default function Login(): any {
   const { setIsAuth } = useContext<ILoginContext>(LoginContext);
@@ -31,30 +25,25 @@ export default function Login(): any {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [inputOnPass, setInputOnPass] = useState("");
-  const [inputOnEmail, setInputOnEmail] = useState("");
   const navigate = useNavigate();
-
-  const onSubmit = (data: {}) => {
-    console.log(data);
-
-    userLogin();
-  };
 
   // Firebase ===============
   const userLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
-        const user = userCredential.user;
+        const user: any = userCredential.user;
+        console.log(user);
 
         localStorage.setItem("ISAUTH", "true");
+        user.uid === "P4tftLAJjmcTezH1180YgFLvm2F3"
+          ? localStorage.setItem("$TOKEN", "guest")
+          : localStorage.setItem("$TOKEN", user?.stsTokenManager?.accessToken);
         if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
@@ -64,8 +53,15 @@ export default function Login(): any {
         const errorCode = error.code;
         const errorMessage = error.message;
         localStorage.removeItem("ISAUTH");
+        localStorage.removeItem("$TOKEN");
       });
   };
+
+  function guestUser() {
+    setEmail("guest@gmail.com");
+    setPassword("guest2022");
+  }
+
   return (
     <StyledLogin>
       <div className="login__wrapper">
@@ -110,6 +106,9 @@ export default function Login(): any {
           <Button onClick={userLogin} type="button">
             Login
           </Button>
+          <div className="guest__wrapper">
+            <p onClick={guestUser}>I am Guest</p>
+          </div>
         </form>
       </div>
     </StyledLogin>
@@ -171,6 +170,19 @@ const StyledLogin = styled.div`
       display: flex;
       flex-direction: column;
       row-gap: 24px;
+
+      .guest__wrapper {
+        padding: 0px 12px;
+        display: flex;
+        justify-content: flex-end;
+
+        p {
+          cursor: pointer;
+          margin-top: -12px;
+          text-decoration: none;
+          color: #0086ff;
+        }
+      }
     }
   }
 `;

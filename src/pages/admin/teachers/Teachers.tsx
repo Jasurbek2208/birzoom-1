@@ -1,5 +1,5 @@
 // Firebase get users
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebase";
 
 import styled from "styled-components";
@@ -11,8 +11,10 @@ import { useEffect, useState } from "react";
 import AddTeacher from "../../../components/addTeacher/AddTeacher";
 
 export default function Teachers() {
+  const token = localStorage.getItem("$TOKEN");
   const [users, setUsers] = useState<{}[]>([]);
-  const [openAdd, setOpenAdd] = useState<boolean>(false)
+  const [openAdd, setOpenAdd] = useState<boolean>(false);
+  const [usersId, setUsersId] = useState<any>([]);
 
   async function getUsers() {
     let list: {}[] = [];
@@ -21,7 +23,30 @@ export default function Teachers() {
       querySnapshot.forEach((doc) => {
         list.push(doc);
       });
+
       setUsers(list);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async function deleteUsers() {
+    let id: any = [];
+    try {
+      usersId.forEach((j: string) => {
+        users.forEach((i: any) => {
+          if (
+            i?._document?.data?.value?.mapValue?.fields?.id?.stringValue === j
+          ) {
+            id.push(i?._document?.key?.path?.segments[6]);
+          }
+        });
+      });
+      console.log(id.join(" "));
+      await deleteDoc(doc(db, "users", id.join(" ")));
+
+      console.log("ishladi");
+      getUsers();
     } catch (error) {
       console.log(error);
     }
@@ -47,13 +72,23 @@ export default function Teachers() {
           <div className="icon-wrapper">
             <p>Excel</p>
           </div>
-          <Button type="button" onClick={() => setOpenAdd(true)} >+ O’qituvchi qo’shish</Button>
+          {usersId[0] ? (
+            <Button type="button" onClick={deleteUsers}>
+              Delete
+            </Button>
+          ) : (
+            <Button type="button" token={token} onClick={() => setOpenAdd(true)}>
+              + O’qituvchi qo’shish
+            </Button>
+          )}
         </div>
       </section>
       {/* ==================== */}
 
-      <DataTable users={users} />
-      <AddTeacher openAdd={openAdd} setOpenAdd={setOpenAdd} />
+      <DataTable users={users} setUsersId={setUsersId} />
+      {token !== "guest" ? (
+        <AddTeacher openAdd={openAdd} setOpenAdd={setOpenAdd} />
+      ) : null}
     </StyledTeachers>
   );
 }
