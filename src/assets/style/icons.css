@@ -36,3 +36,14 @@
   mask-image: url("../icon/search.svg");
   -webkit-mask-image: url("../icon/search.svg");
 }
+
+
+.icon.icon-bell {
+  mask-image: url("../icon/bell.svg");
+  -webkit-mask-image: url("../icon/bell.svg");
+}
+
+.icon.icon-bubble {
+  mask-image: url("../icon/bubble.right.svg");
+  -webkit-mask-image: url("../icon/bubble.right.svg");
+}

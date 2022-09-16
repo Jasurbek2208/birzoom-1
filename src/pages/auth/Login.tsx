@@ -38,7 +38,6 @@ export default function Login(): any {
       .then((userCredential) => {
         // Signed in
         const user: any = userCredential.user;
-        console.log(user);
 
         localStorage.setItem("ISAUTH", "true");
         user.uid === "P4tftLAJjmcTezH1180YgFLvm2F3"
@@ -47,7 +46,6 @@ export default function Login(): any {
         if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
-        navigate("/");
       })
       .catch((error) => {
         const errorCode = error.code;

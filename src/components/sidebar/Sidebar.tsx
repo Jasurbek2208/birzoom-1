@@ -1,13 +1,11 @@
-import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
 
 // Images
 import logo from "../../assets/img/logo.png";
 
-export default function Sidebar() {
+export default function Sidebar({ small, isSmall }: any) {
   const location = useLocation().pathname;
-  const [small, isSmall] = useState(false);
 
   return (
     <StyledSidebar className={small ? "On" : ""}>
@@ -32,7 +30,7 @@ export default function Sidebar() {
         </ul>
       </div>
       <div className="bottom">
-        <div className="icon-wrapper" onClick={() => isSmall((p) => !p)}>
+        <div className="icon-wrapper" onClick={() => isSmall((p: boolean) => !p)}>
           <i className="icon icon-sidebarMain"></i>
         </div>
       </div>

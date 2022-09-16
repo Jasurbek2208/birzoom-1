@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 // Interface
 import { IInput } from "../../interfaces/Interface";
@@ -21,7 +21,7 @@ export default function Input({
   // }
 
   return (
-    <StyledInput>
+    <StyledInput type={type}>
       {label ? <label className={"inputLabel"}>{label}</label> : null}
       <input
         type={eyeType ? "text" : type}
@@ -45,7 +45,7 @@ export default function Input({
   );
 }
 
-const StyledInput = styled.div`
+const StyledInput = styled.div<any>`
   position: relative;
   width: 100%;
   display: flex;
@@ -101,4 +101,26 @@ const StyledInput = styled.div`
       }
     }
   }
+
+  ${({ type }) => {
+    if (type === "file") {
+      return css`
+        input {
+          padding: 0px;
+
+          ::-webkit-file-upload-button {
+            cursor: pointer;
+            padding: 8px 16px;
+            width: 100%;
+            border: none;
+            background: #0086ff;
+            font-weight: 500;
+            line-height: 16px;
+            font-size: 14px;
+            color: #fff;
+          }
+        }
+      `;
+    }
+  }}
 `;

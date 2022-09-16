@@ -9,10 +9,14 @@ import Button from "../../../components/button/Button";
 import DataTable from "../../../components/table/Table";
 import { useEffect, useState } from "react";
 import AddTeacher from "../../../components/addTeacher/AddTeacher";
+import UserAboutPage from "../../../components/userAbout/UserAboutPage";
 
 export default function Teachers() {
+  const [editUser, setEditUser] = useState(false);
+
   const token = localStorage.getItem("$TOKEN");
   const [users, setUsers] = useState<{}[]>([]);
+  const [currentUser, setCurrentUser] = useState<any>(null);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [usersId, setUsersId] = useState<any>([]);
 
@@ -21,10 +25,13 @@ export default function Teachers() {
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
       querySnapshot.forEach((doc) => {
+        // console.log(doc);
+
         list.push(doc);
       });
 
       setUsers(list);
+      console.log("get bo'ldi");
     } catch (error) {
       console.log(error);
     }
@@ -32,6 +39,8 @@ export default function Teachers() {
 
   async function deleteUsers() {
     let id: any = [];
+    // console.log(usersId);
+
     try {
       usersId.forEach((j: string) => {
         users.forEach((i: any) => {
@@ -42,12 +51,14 @@ export default function Teachers() {
           }
         });
       });
-      console.log(id.join(" "));
-      await deleteDoc(doc(db, "users", id.join(" ")));
+      id = id.join("/");
+      console.log(id);
 
+      await deleteDoc(doc(db, "users/", id));
       console.log("ishladi");
+
       getUsers();
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
     }
   }
@@ -60,14 +71,7 @@ export default function Teachers() {
     <StyledTeachers>
       {/* Top navbar */}
       <section className="admin-navbar">
-        <div className="left">
-          <div className="icon-wrapper">
-            <i className="icon icon-search"></i>
-          </div>
-          <div className="icon-wrapper">
-            <i className="icon icon-search"></i>
-          </div>
-        </div>
+        <div className="left"></div>
         <div className="right">
           <div className="icon-wrapper">
             <p>Excel</p>
@@ -77,7 +81,11 @@ export default function Teachers() {
               Delete
             </Button>
           ) : (
-            <Button type="button" token={token} onClick={() => setOpenAdd(true)}>
+            <Button
+              type="button"
+              token={token}
+              onClick={() => setOpenAdd(true)}
+            >
               + O’qituvchi qo’shish
             </Button>
           )}
@@ -85,9 +93,26 @@ export default function Teachers() {
       </section>
       {/* ==================== */}
 
-      <DataTable users={users} setUsersId={setUsersId} />
+      <DataTable
+        users={users}
+        setUsersId={setUsersId}
+        setCurrentUser={setCurrentUser}
+      />
       {token !== "guest" ? (
-        <AddTeacher openAdd={openAdd} setOpenAdd={setOpenAdd} />
+        <AddTeacher
+          editUser={editUser}
+          openAdd={openAdd}
+          setOpenAdd={setOpenAdd}
+          user={currentUser}
+        />
+      ) : null}
+
+      {currentUser ? (
+        <UserAboutPage
+          user={currentUser}
+          setOpenAdd={setOpenAdd}
+          setEditUser={setEditUser}
+        />
       ) : null}
     </StyledTeachers>
   );

@@ -1,11 +1,51 @@
 import styled, { css } from "styled-components";
-import Button from "../button/Button";
 
 // Images
 import inputImg from "../../assets/img/inputImg.png";
-import InputAddForm from "../inpuAddForm/InputAddForm";
 
-export default function ({ openAdd, setOpenAdd }: any) {
+// Components
+import InputAddForm from "../inpuAddForm/InputAddForm";
+import Input from "../input/Input";
+
+// Firebase
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../../firebase";
+import { useState } from "react";
+
+export default function ({ openAdd, setOpenAdd, user, editUser }: any) {
+  const [img, setImg] = useState("");
+
+  async function setWallpaper(e: any) {
+    const file: any = e.target.files[0];
+    const storageRef = ref(storage, "images/" + file.name);
+        
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
+            break;
+          case "running":
+            console.log("Upload is running");
+            break;
+        }
+      },
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImg(downloadURL);
+        });
+      }
+    );
+  }
+
   return (
     <StyledAddPage openAdd={openAdd}>
       <div className="left">
@@ -15,13 +55,21 @@ export default function ({ openAdd, setOpenAdd }: any) {
           <p>Rasmni shu yerga olib keling</p>
         </div>
         <div className="button__wrapper">
-          <Button btnSmall={true} type="button">
-            Rasmni yuklash
-          </Button>
+          <Input
+            placeholder="Rasmni yuklash"
+            type="file"
+            onChange={setWallpaper}
+          />
         </div>
       </div>
       <div className="right">
-        <InputAddForm setOpenAdd={setOpenAdd} />
+        <InputAddForm
+          editUser={editUser}
+          setOpenAdd={setOpenAdd}
+          openAdd={openAdd}
+          user={user}
+          img={img}
+        />
       </div>
     </StyledAddPage>
   );
@@ -42,7 +90,7 @@ const StyledAddPage = styled.div<any>`
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 24px;
-  z-index: 2;
+  z-index: 3;
 
   ${({ openAdd }) => {
     if (openAdd)
@@ -53,6 +101,7 @@ const StyledAddPage = styled.div<any>`
 
   .left {
     padding: 16px;
+    width: 255px;
     background-color: #fff;
     border: 1px solid #eaeaef;
     border-radius: 4px;
@@ -100,5 +149,11 @@ const StyledAddPage = styled.div<any>`
     background-color: #fff;
     border: 0.5px solid #eaeaef;
     border-radius: 4px;
+  }
+
+  @media (max-width: 1200px) {
+    .right {
+      width: 100%;
+    }
   }
 `;

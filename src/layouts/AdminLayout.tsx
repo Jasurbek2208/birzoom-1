@@ -1,15 +1,19 @@
-import styled from "styled-components";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
+import styled from "styled-components";
+
+// Components
 import Sidebar from "../components/sidebar/Sidebar";
 import Navbar from "../components/navbar/Navbar";
 
 export default function AdminLayout() {
+  const [small, isSmall] = useState(false);
   const token = localStorage.getItem("$TOKEN");
 
   return (
     <StyledLayout>
-      <Sidebar />
-      <div className="wrapper">
+      <Sidebar small={small} isSmall={isSmall} />
+      <div className={(small ? "On " : "") + "wrapper"}>
         {token === "guest" ? (
           <div className="guest">
             <h1>Siz Admin Emassiz !</h1>
@@ -30,7 +34,7 @@ const StyledLayout = styled.div`
     padding: 77px 0px 0px 224px;
     width: 100%;
     height: 100vh;
-    transition: .3s;
+    transition: 0.3s;
 
     .guest {
       height: 88vh;
@@ -42,6 +46,10 @@ const StyledLayout = styled.div`
         text-align: center;
         font-weight: 800;
       }
+    }
+
+    &.On {
+      padding-left: 60px;
     }
 
     @media (max-width: 678px) {

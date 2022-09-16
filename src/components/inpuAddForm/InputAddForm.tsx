@@ -17,22 +17,33 @@ import { IUsers } from "../../interfaces/Interface";
 
 // Images
 import ball from "../../assets/img/basketball 1.png";
+import MultiSelect from "../select/MultiSelect";
+import { useEffect } from "react";
 
-export default function InputAddForm({ setOpenAdd }: any) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<IUsers>();
-  
+export default function InputAddForm({
+  setOpenAdd,
+  user,
+  openAdd,
+  editUser,
+  img,
+}: any) {
+  const { register, handleSubmit } = useForm<IUsers>();
+
   const onSubmit: SubmitHandler<IUsers> = async (data) => {
     data.id = data.tgUsername + data.telefonRaqam;
+    data.img = img;
+    console.log(data);
+
     try {
       const docRef = await addDoc(collection(db, "users"), data);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
+
+  useEffect(() => {
+    console.log(img);
+  }, [img]);
 
   return (
     <StyledInputForm>
@@ -43,7 +54,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Ism*"
               placeholder="ismingizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.ism.stringValue : ""}
               option={{ ...register("ism") }}
             />
           </div>
@@ -53,7 +64,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Familiya*"
               placeholder="familiyangizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.familiya.stringValue : ""}
               option={{ ...register("familiya") }}
             />
           </div>
@@ -72,7 +83,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Manzil*"
               placeholder="manzilingizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.manzil.stringValue : ""}
               option={{ ...register("manzil") }}
             />
           </div>
@@ -82,6 +93,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="tel"
               label="Telefon raqam*"
               placeholder="telefon raqamingizni kiriting"
+              defaultValue={editUser ? user.telefonRaqam.stringValue : ""}
               option={{ ...register("telefonRaqam") }}
             />
           </div>
@@ -91,7 +103,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Parol*"
               placeholder="parolingizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.parol.stringValue : ""}
               option={{ ...register("parol") }}
             />
           </div>
@@ -101,7 +113,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="datetime-local"
               label="Tug’ilgan sana*"
               placeholder="tug'ilgan sanangizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.tugilganSana.stringValue : ""}
               option={{ ...register("tugilganSana") }}
             />
           </div>
@@ -111,7 +123,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Telegram username"
               placeholder="telegram username'ingizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.tgUsername.stringValue : ""}
               option={{ ...register("tgUsername") }}
             />
           </div>
@@ -148,6 +160,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="number"
               label="Karta raqami"
               placeholder="karta raqamingizni kiriting"
+              defaultValue={editUser ? user.kartaRaqam.stringValue : ""}
               option={{ ...register("kartaRaqam") }}
             />
           </div>
@@ -157,7 +170,7 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Shiori*"
               placeholder="shioringizni kiriting"
-              defaultValue=""
+              defaultValue={editUser ? user.shior.stringValue : ""}
               option={{ ...register("shior") }}
             />
           </div>
@@ -176,13 +189,15 @@ export default function InputAddForm({ setOpenAdd }: any) {
               type="text"
               label="Zoom link*"
               placeholder="Zoom link kiriting"
-              defaultValue=""
+              defaultValue={
+                editUser ? user.zoomLink.stringValue : "https://zoom.us/"
+              }
               option={{ ...register("zoomLink") }}
             />
           </div>
 
           <div className="input__wrapper">
-            <MySelect
+            <MultiSelect
               option={{ ...register("darsOtishDarajasi") }}
               placeholder="dars o'tish darajangiz"
               label="Qaysi darajaga dars o’tishi*"
@@ -276,7 +291,7 @@ const StyledInputForm = styled.div`
 
     .interests__wrapper {
       margin-top: 24px;
-      
+
       p {
         font-size: 12px;
         font-weight: 600;
@@ -294,14 +309,16 @@ const StyledInputForm = styled.div`
 
         div {
           cursor: pointer;
+          padding: 10px 14px;
+          width: 72px;
+          height: 72px;
           display: flex;
           flex-direction: column;
           align-items: center;
-          padding: 10px 14px;
           border: 1px solid #dcdce4;
           border-radius: 4px;
-          transition: .2s;
-          
+          transition: 0.2s;
+
           &:hover {
             transform: scale(106%);
             box-shadow: 0px 0px 0px 1px #cecece9f;
@@ -330,6 +347,16 @@ const StyledInputForm = styled.div`
       align-items: center;
       justify-content: center;
       gap: 24px;
+    }
+  }
+
+  @media (max-width: 678px) {
+    form {
+      .inputs__wrapper {
+        .input__wrapper {
+          width: 100%;
+        }
+      }
     }
   }
 `;

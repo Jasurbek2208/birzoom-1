@@ -2,14 +2,35 @@ import { useEffect, useState } from "react";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 // Interface
-import { IUsers } from "../../interfaces/Interface";
+import { IAboutUser } from "../userAbout/UserAboutPage";
 
-export default function DataTable({ users, setUsersId }: any) {
+export default function DataTable({ users, setUsersId, setCurrentUser }: any) {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },
+    {
+      field: "img",
+      headerName: "RASM",
+      width: 110,
+      renderCell: (params: any) => {
+        return (
+          <div>
+            <img
+              src={params.row.img}
+              alt="img"
+              style={{
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                marginTop: "6px",
+              }}
+            />
+          </div>
+        );
+      },
+    },
     { field: "ism", headerName: "ISM FAMILIYA", width: 180 },
     { field: "manzil", headerName: "HUDUD", width: 150 },
-    { field: "til", headerName: "TIL", width: 150 },
+    { field: "fani", headerName: "TIL", width: 150 },
     {
       field: "telefonRaqam",
       headerName: "TELEFON RAQAM",
@@ -21,6 +42,14 @@ export default function DataTable({ users, setUsersId }: any) {
       width: 150,
     },
   ];
+
+  function changeCurrentUser(e: IAboutUser) {
+    users.map((i: any) => {
+      if (i._document?.data?.value?.mapValue?.fields.id.stringValue === e.id) {
+        setCurrentUser(i._document?.data?.value?.mapValue?.fields);
+      }
+    });
+  }
 
   const [rows, setRows] = useState([]);
 
@@ -48,6 +77,7 @@ export default function DataTable({ users, setUsersId }: any) {
         rowsPerPageOptions={[5]}
         checkboxSelection
         onSelectionModelChange={(e: any) => setUsersId(e)}
+        onRowDoubleClick={(e: any) => changeCurrentUser(e)}
         style={{
           backgroundColor: "#fff",
         }}

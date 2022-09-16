@@ -1,12 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import styled from "styled-components";
 
 // Images
 import userAvatar from "../../assets/img/userAvatar.png";
+
+// Context
+import { LoginContext } from "../../context/auth/LoginContext";
+
+// Components
 import MySelect from "../select/Select";
 
 export default function Navbar() {
+  const { setIsAuth } = useContext<any>(LoginContext);
   const [openMenu, setOpenMenu] = useState(false);
+
+  function logOut() {
+    localStorage.removeItem("ISAUTH");
+    localStorage.removeItem("$TOKEN");
+    setIsAuth(false);
+  }
 
   return (
     <StyledNavbar>
@@ -26,7 +38,7 @@ export default function Navbar() {
           <div className={(openMenu ? "On " : "") + "user-menu"}>
             <ul>
               <li>Add user</li>
-              <li>LogOut</li>
+              <li onClick={logOut}>LogOut</li>
               <li className="select-wrapper">
                 <MySelect list={["Uzb", "Rus", "Eng"]} placeholder="language" />
               </li>

@@ -39,7 +39,7 @@ export interface ISelect {
 
 export interface ILoginContext {
   isAuth?: boolean;
-  setIsAuth?: Function;
+  setIsAuth?: any;
 }
 
 // db Users
@@ -55,10 +55,11 @@ export interface IUsers {
   kartaRaqam: number;
   shior: string;
   zoomLink: string;
-  darsOtishDarajasi: string;
+  darsOtishDarajasi: any;
   jinsi: string;
   faoliyatTuri: string;
   fani: string;
   tilDarajasi: string;
   holati: string;
+  img: string;
 }
