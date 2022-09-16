@@ -49,7 +49,7 @@ export default function UserAboutPage({ user, setOpenAdd, setEditUser }: any) {
           </div>
           <div className="center">
             <img
-              src={current?.img?.stringValue ? current?.img : useravatar}
+              src={current?.img ? current?.img?.stringValue : useravatar}
               alt="user_Avatar.png"
             />
           </div>
@@ -219,6 +219,7 @@ const StyledAboutPage = styled.div<any>`
         img {
           width: 100%;
           height: 100%;
+          border-radius: 50%;
         }
       }
 

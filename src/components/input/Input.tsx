@@ -11,14 +11,10 @@ export default function Input({
   type = "text",
   required,
   onChange,
-  inputOn,
   defaultValue,
   option,
 }: IInput) {
   const [eyeType, setEyeType] = useState(false);
-  // function eyeClick() {
-  //   type === "password" ? (type = "text") : (type = "password");
-  // }
 
   return (
     <StyledInput type={type}>
@@ -78,6 +74,7 @@ const StyledInput = styled.div<any>`
   }
 
   .icon__wrapper {
+    cursor: pointer;
     position: absolute;
     top: 56%;
     right: 12px;

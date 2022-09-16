@@ -12,13 +12,13 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { useState } from "react";
 
-export default function ({ openAdd, setOpenAdd, user, editUser }: any) {
+export default function ({ openAdd, setOpenAdd, user, editUser, getUsers }: any) {
   const [img, setImg] = useState("");
 
   async function setWallpaper(e: any) {
     const file: any = e.target.files[0];
     const storageRef = ref(storage, "images/" + file.name);
-        
+
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -34,9 +34,6 @@ export default function ({ openAdd, setOpenAdd, user, editUser }: any) {
             console.log("Upload is running");
             break;
         }
-      },
-      (error) => {
-        console.log(error);
       },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
@@ -69,6 +66,7 @@ export default function ({ openAdd, setOpenAdd, user, editUser }: any) {
           openAdd={openAdd}
           user={user}
           img={img}
+          getUsers={getUsers}
         />
       </div>
     </StyledAddPage>

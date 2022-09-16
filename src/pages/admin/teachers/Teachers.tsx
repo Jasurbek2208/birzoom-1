@@ -25,11 +25,8 @@ export default function Teachers() {
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
       querySnapshot.forEach((doc) => {
-        // console.log(doc);
-
         list.push(doc);
       });
-
       setUsers(list);
       console.log("get bo'ldi");
     } catch (error) {
@@ -39,25 +36,25 @@ export default function Teachers() {
 
   async function deleteUsers() {
     let id: any = [];
-    // console.log(usersId);
 
-    try {
-      usersId.forEach((j: string) => {
-        users.forEach((i: any) => {
-          if (
-            i?._document?.data?.value?.mapValue?.fields?.id?.stringValue === j
-          ) {
-            id.push(i?._document?.key?.path?.segments[6]);
-          }
-        });
+    usersId.forEach((j: string) => {
+      users.forEach((i: any) => {
+        if (
+          i?._document?.data?.value?.mapValue?.fields?.id?.stringValue === j
+        ) {
+          id.push(i?._document?.key?.path?.segments[6]);
+        }
       });
-      id = id.join("/");
-      console.log(id);
+    });
+    id.map((i: string) => {
+      dbDelete(i);
+    });
+    getUsers();
+  }
 
-      await deleteDoc(doc(db, "users/", id));
-      console.log("ishladi");
-
-      getUsers();
+  async function dbDelete(id: string) {
+    try {
+      deleteDoc(doc(db, "users/", id));
     } catch (error: any) {
       console.log(error);
     }
@@ -104,6 +101,7 @@ export default function Teachers() {
           openAdd={openAdd}
           setOpenAdd={setOpenAdd}
           user={currentUser}
+          getUsers={getUsers}
         />
       ) : null}
 

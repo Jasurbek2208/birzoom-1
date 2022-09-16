@@ -26,24 +26,26 @@ export default function InputAddForm({
   openAdd,
   editUser,
   img,
+  getUsers,
 }: any) {
-  const { register, handleSubmit } = useForm<IUsers>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IUsers>();
 
   const onSubmit: SubmitHandler<IUsers> = async (data) => {
     data.id = data.tgUsername + data.telefonRaqam;
     data.img = img;
-    console.log(data);
 
     try {
-      const docRef = await addDoc(collection(db, "users"), data);
+      await addDoc(collection(db, "users"), data);
+      getUsers();
+      setOpenAdd(false);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
-
-  useEffect(() => {
-    console.log(img);
-  }, [img]);
 
   return (
     <StyledInputForm>
@@ -55,8 +57,9 @@ export default function InputAddForm({
               label="Ism*"
               placeholder="ismingizni kiriting"
               defaultValue={editUser ? user.ism.stringValue : ""}
-              option={{ ...register("ism") }}
+              option={{ ...register("ism", { required: true }) }}
             />
+            {errors.ism && <span className="error">Ism kiritilmadi !</span>}
           </div>
 
           <div className="input__wrapper">
@@ -65,17 +68,21 @@ export default function InputAddForm({
               label="Familiya*"
               placeholder="familiyangizni kiriting"
               defaultValue={editUser ? user.familiya.stringValue : ""}
-              option={{ ...register("familiya") }}
+              option={{ ...register("familiya", { required: true }) }}
             />
+            {errors.familiya && (
+              <span className="error">Familiya kiritilmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
             <MySelect
-              option={{ ...register("jinsi") }}
+              option={{ ...register("jinsi", { required: true }) }}
               list={["erkak", "ayol"]}
               label="Jinsi*"
               placeholder="jinsingizni belgilang"
             />
+            {errors.jinsi && <span className="error">Jins kiritilmadi !</span>}
           </div>
 
           <div className="input__wrapper">
@@ -84,8 +91,11 @@ export default function InputAddForm({
               label="Manzil*"
               placeholder="manzilingizni kiriting"
               defaultValue={editUser ? user.manzil.stringValue : ""}
-              option={{ ...register("manzil") }}
+              option={{ ...register("manzil", { required: true }) }}
             />
+            {errors.manzil && (
+              <span className="error">Manzilni kiritish shart !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
@@ -94,18 +104,24 @@ export default function InputAddForm({
               label="Telefon raqam*"
               placeholder="telefon raqamingizni kiriting"
               defaultValue={editUser ? user.telefonRaqam.stringValue : ""}
-              option={{ ...register("telefonRaqam") }}
+              option={{ ...register("telefonRaqam", { required: true }) }}
             />
+            {errors.telefonRaqam && (
+              <span className="error">Telefon raqam kiritilmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
             <Input
-              type="text"
+              type="password"
               label="Parol*"
-              placeholder="parolingizni kiriting"
+              placeholder="Parolni kiriting"
               defaultValue={editUser ? user.parol.stringValue : ""}
-              option={{ ...register("parol") }}
+              option={{ ...register("parol", { required: true }) }}
             />
+            {errors.parol && (
+              <span className="error">Parolni kiritilmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
@@ -114,8 +130,11 @@ export default function InputAddForm({
               label="Tug’ilgan sana*"
               placeholder="tug'ilgan sanangizni kiriting"
               defaultValue={editUser ? user.tugilganSana.stringValue : ""}
-              option={{ ...register("tugilganSana") }}
+              option={{ ...register("tugilganSana", { required: true }) }}
             />
+            {errors.tugilganSana && (
+              <span className="error">Tug'ilgan sana belgilanmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
@@ -130,29 +149,36 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MySelect
-              option={{ ...register("faoliyatTuri") }}
+              option={{ ...register("faoliyatTuri", { required: true }) }}
               placeholder="faoliyat turiingizni kiriting"
               label="Faoliyat turi*"
               list={["O'qituvchi", "Ustoz", "Yordamchi"]}
             />
+            {errors.faoliyatTuri && (
+              <span className="error">Faoliyat turi belgilanmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
             <MySelect
-              option={{ ...register("fani") }}
+              option={{ ...register("fani", { required: true }) }}
               placeholder="faningizni kiriting"
               label="Fani*"
               list={["Ingliz tili", "Rus tili", "Arab tili"]}
             />
+            {errors.fani && <span className="error">Fan belgilanmadi !</span>}
           </div>
 
           <div className="input__wrapper">
             <MySelect
-              option={{ ...register("tilDarajasi") }}
+              option={{ ...register("tilDarajasi", { required: true }) }}
               placeholder="til darajangizni kiriting"
               label="Til darajasi*"
               list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
             />
+            {errors.tilDarajasi && (
+              <span className="error">Til darajasi belgilanmadi !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
@@ -171,17 +197,23 @@ export default function InputAddForm({
               label="Shiori*"
               placeholder="shioringizni kiriting"
               defaultValue={editUser ? user.shior.stringValue : ""}
-              option={{ ...register("shior") }}
+              option={{ ...register("shior", { required: true }) }}
             />
+            {errors.shior && (
+              <span className="error">Shior yozishga majbursiz !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
             <MySelect
-              option={{ ...register("holati") }}
+              option={{ ...register("holati", { required: true }) }}
               placeholder="holatingizni kiriting"
               label="Holati"
               list={["Faol", "Nofaol"]}
             />
+            {errors.holati && (
+              <span className="error">Holat belgilanmagan !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
@@ -192,17 +224,25 @@ export default function InputAddForm({
               defaultValue={
                 editUser ? user.zoomLink.stringValue : "https://zoom.us/"
               }
-              option={{ ...register("zoomLink") }}
+              option={{
+                ...register("zoomLink", { required: true, minLength: 22 }),
+              }}
             />
+            {errors.zoomLink && (
+              <span className="error">Zoom linkni kiritmadingiz !</span>
+            )}
           </div>
 
           <div className="input__wrapper">
             <MultiSelect
-              option={{ ...register("darsOtishDarajasi") }}
+              option={{ ...register("darsOtishDarajasi", { required: true }) }}
               placeholder="dars o'tish darajangiz"
               label="Qaysi darajaga dars o’tishi*"
               list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
             />
+            {errors.darsOtishDarajasi && (
+              <span className="error">Tanlashga majbursiz !</span>
+            )}
           </div>
         </div>
         <div className="interests__wrapper">
@@ -256,11 +296,7 @@ export default function InputAddForm({
           >
             Bekor qilish
           </Button>
-          <Button
-            onClick={() => setOpenAdd(false)}
-            btnSmall={true}
-            type="submit"
-          >
+          <Button btnSmall={true} type="submit">
             Saqlash
           </Button>
         </div>
@@ -285,7 +321,17 @@ const StyledInputForm = styled.div`
       flex-wrap: wrap;
 
       .input__wrapper {
+        position: relative;
         width: 360px;
+
+        .error {
+          position: absolute;
+          right: 0px;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #ee0000;
+        }
       }
     }
 
