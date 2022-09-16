@@ -182,5 +182,20 @@ const StyledLogin = styled.div`
         }
       }
     }
+
+    @media (max-width: 580px) {
+      padding: 40px 30px;
+      min-width: 450px;
+      min-height: 330px;
+    }
+
+    @media (max-width: 480px) {
+      min-width: 380px;
+    }
+
+    @media (max-width: 408px) {
+      min-width: 322px;
+      min-height: 300px;
+    }
   }
 `;
