@@ -64,7 +64,9 @@ export default function InputAddForm({
   };
 
   const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
-    data.id = data.tgUsername + data.telefonRaqam;
+    data.id = user?.id?.stringValue;
+    data.royxatdanOtganSana = user?.royxatdanOtganSana?.stringValue;
+    img !== "" ? (data.img = img) : (data.img = user?.img?.stringValue);
 
     try {
       const docRef = doc(db, "users", user.uid);
@@ -80,6 +82,7 @@ export default function InputAddForm({
   user?.darsOtishDarajasi?.arrayValue?.values?.map((i: any) => {
     newValue.push(i?.stringValue);
   });
+  console.log(img);
 
   return (
     <StyledInputForm>
