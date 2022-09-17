@@ -62,4 +62,5 @@ export interface IUsers {
   tilDarajasi: string;
   holati: string;
   img: string;
+  royxatdanOtganSana: string;
 }

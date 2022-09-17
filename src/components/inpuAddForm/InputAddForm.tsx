@@ -38,6 +38,22 @@ export default function InputAddForm({
     data.id = data.tgUsername + data.telefonRaqam;
     data.img = img;
 
+    let month = new Date().getMonth();
+    let day = new Date().getDate();
+    let hours = new Date().getHours();
+    let minute = new Date().getMinutes();
+
+    data.royxatdanOtganSana =
+      new Date().getFullYear() +
+      "." +
+      (month < 10 ? "0" + (month + 1) : month) +
+      "." +
+      (day < 10 ? "0" + (day + 1) : day) +
+      " " +
+      (hours < 10 ? "0" + hours : hours) +
+      ":" +
+      (minute < 10 ? "0" + minute : minute);
+
     try {
       await addDoc(collection(db, "users"), data);
       getUsers();

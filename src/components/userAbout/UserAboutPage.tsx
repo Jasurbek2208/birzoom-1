@@ -132,10 +132,7 @@ export default function UserAboutPage({ user, setOpenAdd, setEditUser }: any) {
           </li>
           <li className="list">
             <p>Rо’yxatdan o’tgan sana:</p>
-            {/* <h3>{current?.royxatdanOtganSana.stringValue}</h3> */}
-          </li>
-          <li className="list">
-            <p>Darslari:</p> <h3>{current?.darsOtishDarajasi?.stringValue}</h3>
+            <h3>{current?.royxatdanOtganSana?.stringValue}</h3>
           </li>
           <li className="list">
             <p>Zoom link:</p>{" "}
@@ -144,11 +141,7 @@ export default function UserAboutPage({ user, setOpenAdd, setEditUser }: any) {
             </a>
           </li>
           <li className="list">
-            <p>O’rtacha narxi:</p> {/* <h3>{current}</h3> */}
-          </li>
-          <li className="list">
             <p>Qaysi darajaga dars o’tishi:</p>
-            {/* <h3>{current?.darsOtishDarajasi?.arrayValue?.values[0]?.stringValue + ", " + current?.darsOtishDarajasi?.arrayValue?.values[1]?.stringValue + ", " + current?.darsOtishDarajasi?.arrayValue?.values[2]?.stringValue}</h3> */}
             <h3>
               {current?.darsOtishDarajasi?.arrayValue?.values?.map(
                 (i: any, idx: number) => {
@@ -158,7 +151,8 @@ export default function UserAboutPage({ user, setOpenAdd, setEditUser }: any) {
             </h3>
           </li>
           <li className="list">
-            <p>So’ngi faollik</p> {/* <h3>{current?.}</h3> */}
+            <p>So’ngi faollik</p>{" "}
+            <h3>{current?.royxatdanOtganSana?.stringValue}</h3>
           </li>
         </ul>
       </div>

@@ -59,7 +59,7 @@ export default function ({
       <div className="left">
         <p>Rasm*</p>
         <div className="img__wrapper">
-          <img src={inputImg} alt="inputImg.png" />
+          <img src={img || inputImg} alt="inputImg.png" />
           <p>Rasmni shu yerga olib keling</p>
         </div>
         <div className="button__wrapper">
@@ -135,6 +135,7 @@ const StyledAddPage = styled.div<any>`
         margin: 0 auto;
         width: 134px;
         height: 134px;
+        border-radius: 50%;
       }
 
       p {
