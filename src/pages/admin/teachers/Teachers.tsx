@@ -22,8 +22,10 @@ export default function Teachers() {
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [usersId, setUsersId] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
 
   async function getUsers() {
+    setLoading(true);
     let list: {}[] = [];
     try {
       const querySnapshot = await getDocs(collection(db, "users"));
@@ -34,6 +36,8 @@ export default function Teachers() {
       console.log("get bo'ldi");
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -94,18 +98,16 @@ export default function Teachers() {
         </div>
       </section>
       {/* ==================== */}
-      {users[0] ? (
         <DataTable
           token={token}
           users={users}
           setUsersId={setUsersId}
           setCurrentUser={setCurrentUser}
+          loading={loading}
         />
-      ) : (
-        <div className="NoUsersImg">
+        {/* <div className="NoUsersImg">
           <img src={NoUsersImg} alt="NoUsersImg" />
-        </div>
-      )}
+        </div> */}
       {token !== "guest" ? (
         <AddTeacher
           editUser={editUser}

@@ -9,6 +9,7 @@ export default function DataTable({
   setUsersId,
   setCurrentUser,
   token,
+  loading,
 }: any) {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },
@@ -80,12 +81,12 @@ export default function DataTable({
   return (
     <div style={{ height: 400, width: "100%" }}>
       <DataGrid
+        loading={loading}
         rows={rows}
         columns={columns}
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
-        
         onSelectionModelChange={(e: any) => setUsersId(e)}
         onRowDoubleClick={(e: any) => {
           if (token !== "guest") changeCurrentUser(e);

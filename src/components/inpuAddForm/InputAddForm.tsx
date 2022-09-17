@@ -81,6 +81,7 @@ export default function InputAddForm({
     newValue.push(i?.stringValue);
   });
 
+
   return (
     <StyledInputForm>
       <form onSubmit={handleSubmit(user?.uid ? onSubmitUpdate : onSubmit)}>

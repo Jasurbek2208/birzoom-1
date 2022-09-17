@@ -11,10 +11,13 @@ export default function Input({
   type = "text",
   required,
   onChange,
+  user,
   defaultValue,
   option,
 }: IInput) {
   const [eyeType, setEyeType] = useState(false);
+
+  const [defValue, setDefValue] = useState(defaultValue || "");
 
   return (
     <StyledInput type={type}>
@@ -31,11 +34,10 @@ export default function Input({
       ) : (
         <input
           type={eyeType ? "text" : type}
-          defaultValue={defaultValue}
           {...option}
+          defaultValue={defaultValue}
           placeholder={placeholder || ""}
           required={required}
-          onChange={onChange}
         />
       )}
       {placeholder === "Parolni kiriting" ? (

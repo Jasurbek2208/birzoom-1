@@ -10,7 +10,7 @@ import { LoginContext } from "../../context/auth/LoginContext";
 // Components
 import MySelect from "../select/Select";
 
-export default function Navbar() {
+export default function Navbar({ small }: any) {
   const { setIsAuth } = useContext<any>(LoginContext);
   const [openMenu, setOpenMenu] = useState(false);
 
@@ -21,7 +21,7 @@ export default function Navbar() {
   }
 
   return (
-    <StyledNavbar>
+    <StyledNavbar className={small ? "On" : ""}>
       <div className="left">
         <h1>O’qituvchilar</h1>
       </div>
@@ -51,13 +51,18 @@ export default function Navbar() {
 const StyledNavbar = styled.div`
   position: fixed;
   top: 0px;
-  padding: 16px 264px 16px 24px;
-  width: 100%;
+  padding: 16px 24px 16px;
+  width: calc(100vw - 224px);
   display: flex;
   justify-content: space-between;
   background: #fff;
   border-bottom: 1px solid #eaeaef;
   z-index: 5;
+  border: 1px solid red;
+
+  &.On {
+    width: calc(100vw - 60px);
+  }
 
   .left {
     h1 {
@@ -135,7 +140,7 @@ const StyledNavbar = styled.div`
   }
 
   @media (max-width: 678px) {
-    padding: 16px 84px 16px 20px;
+    width: calc(100vw - 60px);
 
     .right {
       .list {
@@ -147,8 +152,6 @@ const StyledNavbar = styled.div`
   }
 
   @media (max-width: 510px) {
-    padding: 16px 80px 16px 20px;
-
     .right {
       display: flex;
       align-items: center;

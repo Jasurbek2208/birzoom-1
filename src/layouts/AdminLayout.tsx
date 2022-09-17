@@ -13,7 +13,7 @@ export default function AdminLayout() {
     <StyledLayout>
       <Sidebar small={small} isSmall={isSmall} />
       <div className={(small ? "On " : "") + "wrapper"}>
-        <Navbar />
+        <Navbar small={small} />
         <Outlet />
       </div>
     </StyledLayout>

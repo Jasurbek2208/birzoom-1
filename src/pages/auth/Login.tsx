@@ -47,7 +47,6 @@ export default function Login(): any {
 
         document.cookie = user?.stsTokenManager?.accessToken;
         localStorage.setItem("ISAUTH", "true");
-        console.log(user);
       })
       .catch((error) => {
         console.log(error);

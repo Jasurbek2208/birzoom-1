@@ -6,6 +6,7 @@ export interface IInput {
   label?: string;
   option?: {};
   value?: string;
+  user?: any;
   placeholder?: string;
   type?: string;
   required?: boolean;
