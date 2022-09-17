@@ -12,11 +12,18 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storage } from "../../firebase";
 import { useState } from "react";
 
-export default function ({ openAdd, setOpenAdd, user, editUser, getUsers }: any) {
+export default function ({
+  openAdd,
+  setOpenAdd,
+  user,
+  editUser,
+  getUsers,
+}: any) {
   const [img, setImg] = useState("");
 
   async function setWallpaper(e: any) {
     const file: any = e.target.files[0];
+    console.log(file);
     const storageRef = ref(storage, "images/" + file.name);
 
     const uploadTask = uploadBytesResumable(storageRef, file);
@@ -35,9 +42,13 @@ export default function ({ openAdd, setOpenAdd, user, editUser, getUsers }: any)
             break;
         }
       },
+      (error) => {
+        console.log(error);
+      },
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImg(downloadURL);
+          console.log(img);
         });
       }
     );

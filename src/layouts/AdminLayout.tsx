@@ -14,11 +14,6 @@ export default function AdminLayout() {
     <StyledLayout>
       <Sidebar small={small} isSmall={isSmall} />
       <div className={(small ? "On " : "") + "wrapper"}>
-        {token === "guest" ? (
-          <div className="guest">
-            <h1>Siz Admin Emassiz !</h1>
-          </div>
-        ) : null}
         <Navbar />
         <Outlet />
       </div>

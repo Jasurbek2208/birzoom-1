@@ -27,20 +27,20 @@ export default function Router() {
   //     querySnapshot.forEach((doc: any) => {
   //       list.push(doc._key.path.segments[6]);
   //       console.log(doc.id);
-        
+
   //       if(doc.id === token) {
   //         console.log("teng");
-          
+
   //       } else {
   //         console.log("tengmas");
-          
+
   //       }
   //     });
   //   }
   //   if (token) getUsers();
 
   //   console.log(list);
-    
+
   //   let res: boolean = false;
   //   list.forEach((i: any) => {
   //     if (i === token) {
@@ -66,14 +66,15 @@ export default function Router() {
     );
   }
 
-  if (token === "guest") {
-    return (
-      <Routes>
-        <Route path="/" element={<AdminLayout />} />
-        <Route path="*" element={<Navigate to="/" />} />
-      </Routes>
-    );
-  }
+  // if (token === "guest") {
+  //   return (
+  //     <Routes>
+  //       <Route element={<AdminLayout />} />
+  //       <Route path="/teachers" element={<Teachers />} />
+  //       <Route path="*" element={<Navigate to="teachers" />} />
+  //     </Routes>
+  //   );
+  // }
 
   return (
     <Routes>

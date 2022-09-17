@@ -70,7 +70,7 @@ export default function Teachers() {
       <section className="admin-navbar">
         <div className="left"></div>
         <div className="right">
-          <div className="icon-wrapper">
+          <div className={(token === "guest" ? "guest " : "") + "icon-wrapper"}>
             <p>Excel</p>
           </div>
           {usersId[0] ? (
@@ -136,9 +136,15 @@ const StyledTeachers = styled.div`
       .icon-wrapper {
         cursor: pointer;
         padding: 12px 14px;
+        height: max-content;
         background: #fff;
         border: 1px solid #dcdce4;
         border-radius: 4px;
+
+        &.guest {
+          cursor: not-allowed;
+          background: #e6e6e6b5;
+        }
       }
     }
   }
