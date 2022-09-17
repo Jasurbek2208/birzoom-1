@@ -59,7 +59,9 @@ export default function ({
       <div className="left">
         <p>Rasm*</p>
         <div className="img__wrapper">
-          {user?.img?.stringValue ? (
+          {img ? (
+            <img src={img} alt="inputImg.png" />
+          ) : user?.img?.stringValue ? (
             <img src={user.img.stringValue} alt="inputImg.png" />
           ) : (
             <img src={img || inputImg} alt="inputImg.png" />
