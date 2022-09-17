@@ -76,7 +76,7 @@ export default function Teachers() {
             <p>Excel</p>
           </div>
           {usersId[0] ? (
-            <Button type="button" onClick={deleteUsers}>
+            <Button type="button" token={token} onClick={deleteUsers}>
               Delete
             </Button>
           ) : (
@@ -93,6 +93,7 @@ export default function Teachers() {
       {/* ==================== */}
 
       <DataTable
+        token={token}
         users={users}
         setUsersId={setUsersId}
         setCurrentUser={setCurrentUser}

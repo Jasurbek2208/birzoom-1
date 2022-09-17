@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Firebase
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, updateDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 // Components
@@ -63,6 +63,19 @@ export default function InputAddForm({
     }
   };
 
+  const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
+    data.id = data.tgUsername + data.telefonRaqam;
+
+    try {
+      const docRef = doc(db, "users", user.uid);
+      setDoc(docRef, data);
+      getUsers();
+      setOpenAdd(false);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   let newValue: String[] = [];
   user?.darsOtishDarajasi?.arrayValue?.values?.map((i: any) => {
     newValue.push(i?.stringValue);
@@ -70,7 +83,7 @@ export default function InputAddForm({
 
   return (
     <StyledInputForm>
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(user?.uid ? onSubmitUpdate : onSubmit)}>
         <div className="inputs__wrapper">
           <div className="input__wrapper">
             <Input

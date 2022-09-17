@@ -4,7 +4,12 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 // Interface
 import { IAboutUser } from "../userAbout/UserAboutPage";
 
-export default function DataTable({ users, setUsersId, setCurrentUser }: any) {
+export default function DataTable({
+  users,
+  setUsersId,
+  setCurrentUser,
+  token,
+}: any) {
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 110 },
     {
@@ -47,6 +52,10 @@ export default function DataTable({ users, setUsersId, setCurrentUser }: any) {
     users.map((i: any) => {
       if (i._document?.data?.value?.mapValue?.fields.id.stringValue === e.id) {
         setCurrentUser(i._document?.data?.value?.mapValue?.fields);
+        setCurrentUser((p: any) => ({
+          ...p,
+          uid: i._document?.key?.path?.segments[6],
+        }));
       }
     });
   }
@@ -76,8 +85,11 @@ export default function DataTable({ users, setUsersId, setCurrentUser }: any) {
         pageSize={5}
         rowsPerPageOptions={[5]}
         checkboxSelection
+        
         onSelectionModelChange={(e: any) => setUsersId(e)}
-        onRowDoubleClick={(e: any) => changeCurrentUser(e)}
+        onRowDoubleClick={(e: any) => {
+          if (token !== "guest") changeCurrentUser(e);
+        }}
         style={{
           backgroundColor: "#fff",
         }}

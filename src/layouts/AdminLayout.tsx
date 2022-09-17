@@ -8,7 +8,6 @@ import Navbar from "../components/navbar/Navbar";
 
 export default function AdminLayout() {
   const [small, isSmall] = useState(false);
-  const token = localStorage.getItem("$TOKEN");
 
   return (
     <StyledLayout>

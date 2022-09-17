@@ -37,7 +37,6 @@ export default function Navbar() {
           />
           <div className={(openMenu ? "On " : "") + "user-menu"}>
             <ul>
-              <li>Add user</li>
               <li onClick={logOut}>LogOut</li>
               <li className="select-wrapper">
                 <MySelect list={["Uzb", "Rus", "Eng"]} placeholder="language" />
