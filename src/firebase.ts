@@ -12,10 +12,11 @@ const firebaseConfig = {
   messagingSenderId: "904168997719",
   appId: "1:904168997719:web:bbc7b3fa58917dd2b97412",
   measurementId: "G-ZJH0Q50E4S",
+  databaseURL: "https://birzoom.firebaseio.com",
 };
 
 const app = initializeApp(firebaseConfig);
 
 export const auth = getAuth();
-export const db:any = getFirestore(app);
+export const db: any = getFirestore(app);
 export const storage = getStorage(app);

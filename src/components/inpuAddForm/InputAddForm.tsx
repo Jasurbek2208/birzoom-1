@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 // Firebase
-import { collection, addDoc, updateDoc, setDoc, doc } from "firebase/firestore";
+import { collection, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase";
 
 // Components
@@ -18,12 +18,10 @@ import { IUsers } from "../../interfaces/Interface";
 // Images
 import ball from "../../assets/img/basketball 1.png";
 import MultiSelect from "../select/MultiSelect";
-import { useEffect } from "react";
 
 export default function InputAddForm({
   setOpenAdd,
   user,
-  openAdd,
   editUser,
   img,
   getUsers,
@@ -82,7 +80,6 @@ export default function InputAddForm({
   user?.darsOtishDarajasi?.arrayValue?.values?.map((i: any) => {
     newValue.push(i?.stringValue);
   });
-  console.log(img);
 
   return (
     <StyledInputForm>

@@ -1,13 +1,16 @@
+import { useEffect, useState } from "react";
+import styled from "styled-components";
+
 // Firebase get users
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebase";
 
-import styled from "styled-components";
+// Images
+import NoUsersImg from "../../../assets/img/backgroundEye.png";
 
 // Components
 import Button from "../../../components/button/Button";
 import DataTable from "../../../components/table/Table";
-import { useEffect, useState } from "react";
 import AddTeacher from "../../../components/addTeacher/AddTeacher";
 import UserAboutPage from "../../../components/userAbout/UserAboutPage";
 
@@ -91,13 +94,18 @@ export default function Teachers() {
         </div>
       </section>
       {/* ==================== */}
-
-      <DataTable
-        token={token}
-        users={users}
-        setUsersId={setUsersId}
-        setCurrentUser={setCurrentUser}
-      />
+      {users[0] ? (
+        <DataTable
+          token={token}
+          users={users}
+          setUsersId={setUsersId}
+          setCurrentUser={setCurrentUser}
+        />
+      ) : (
+        <div className="NoUsersImg">
+          <img src={NoUsersImg} alt="NoUsersImg" />
+        </div>
+      )}
       {token !== "guest" ? (
         <AddTeacher
           editUser={editUser}
@@ -164,5 +172,12 @@ const StyledTeachers = styled.div`
         color: #666687;
       }
     }
+  }
+
+  .NoUsersImg {
+    padding-top: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
