@@ -19,15 +19,25 @@ export default function Input({
   return (
     <StyledInput type={type}>
       {label ? <label className={"inputLabel"}>{label}</label> : null}
-      <input
-        type={eyeType ? "text" : type}
-        value={value}
-        defaultValue={defaultValue}
-        {...option}
-        placeholder={placeholder || ""}
-        required={required}
-        onChange={onChange}
-      />
+      {value ? (
+        <input
+          type={eyeType ? "text" : type}
+          value={value}
+          {...option}
+          placeholder={placeholder || ""}
+          required={required}
+          onChange={onChange}
+        />
+      ) : (
+        <input
+          type={eyeType ? "text" : type}
+          defaultValue={defaultValue}
+          {...option}
+          placeholder={placeholder || ""}
+          required={required}
+          onChange={onChange}
+        />
+      )}
       {placeholder === "Parolni kiriting" ? (
         <div className="icon__wrapper">
           <i

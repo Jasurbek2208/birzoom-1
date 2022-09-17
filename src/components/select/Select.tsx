@@ -10,8 +10,9 @@ export default function MySelect({
   label,
   placeholder,
   option,
+  defaultValue,
 }: ISelect) {
-  const [selectValue, setSelectValue] = useState("");
+  const [selectValue, setSelectValue] = useState<string>(defaultValue || "");
 
   function handleChange(e: any) {
     setSelectValue(e.target.value);
@@ -42,7 +43,6 @@ export default function MySelect({
           value={selectValue}
           onChange={handleChange}
           displayEmpty
-          defaultValue="Uzb"
           style={{ height: "38px", width: "100%", margin: "0px" }}
         >
           {list.map((i: any) => (

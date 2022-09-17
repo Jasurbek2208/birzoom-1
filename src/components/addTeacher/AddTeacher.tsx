@@ -59,7 +59,11 @@ export default function ({
       <div className="left">
         <p>Rasm*</p>
         <div className="img__wrapper">
-          <img src={img || inputImg} alt="inputImg.png" />
+          {user?.img?.stringValue ? (
+            <img src={user.img.stringValue} alt="inputImg.png" />
+          ) : (
+            <img src={img || inputImg} alt="inputImg.png" />
+          )}
           <p>Rasmni shu yerga olib keling</p>
         </div>
         <div className="button__wrapper">

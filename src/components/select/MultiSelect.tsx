@@ -9,6 +9,7 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Chip from "@mui/material/Chip";
 import { ISelect } from "../../interfaces/Interface";
 import styled from "styled-components";
+import { useEffect } from "react";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -35,6 +36,7 @@ export default function MultiSelect({
   label,
   placeholder,
   option,
+  defaultValue,
 }: ISelect) {
   const theme = useTheme();
   const [personName, setPersonName] = React.useState<string[]>([]);
@@ -44,9 +46,11 @@ export default function MultiSelect({
       target: { value },
     } = event;
     setPersonName(typeof value === "string" ? value.split(",") : value);
-    console.log(personName);
-    
   };
+
+  useEffect(() => {
+    setPersonName(defaultValue);
+  }, [defaultValue]);
 
   return (
     <StyledMultiSelect>

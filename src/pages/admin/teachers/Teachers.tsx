@@ -68,7 +68,9 @@ export default function Teachers() {
     <StyledTeachers>
       {/* Top navbar */}
       <section className="admin-navbar">
-        <div className="left"></div>
+        <div className="left">
+          <p>{users.length} ta o’qituvchi</p>
+        </div>
         <div className="right">
           <div className={(token === "guest" ? "guest " : "") + "icon-wrapper"}>
             <p>Excel</p>
@@ -145,6 +147,20 @@ const StyledTeachers = styled.div`
           cursor: not-allowed;
           background: #e6e6e6b5;
         }
+      }
+    }
+
+    .left {
+      position: relative;
+      width: 200px;
+
+      p {
+        position: absolute;
+        top: 32px;
+        left: 0px;
+        font-size: 14px;
+        line-height: 20px;
+        color: #666687;
       }
     }
   }

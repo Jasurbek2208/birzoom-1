@@ -63,6 +63,11 @@ export default function InputAddForm({
     }
   };
 
+  let newValue: String[] = [];
+  user?.darsOtishDarajasi?.arrayValue?.values?.map((i: any) => {
+    newValue.push(i?.stringValue);
+  });
+
   return (
     <StyledInputForm>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -72,7 +77,7 @@ export default function InputAddForm({
               type="text"
               label="Ism*"
               placeholder="ismingizni kiriting"
-              defaultValue={editUser ? user.ism.stringValue : ""}
+              defaultValue={user?.ism?.stringValue}
               option={{ ...register("ism", { required: true }) }}
             />
             {errors.ism && <span className="error">Ism kiritilmadi !</span>}
@@ -225,6 +230,7 @@ export default function InputAddForm({
               option={{ ...register("holati", { required: true }) }}
               placeholder="holatingizni kiriting"
               label="Holati"
+              defaultValue={user?.holati?.stringValue || ""}
               list={["Faol", "Nofaol"]}
             />
             {errors.holati && (
@@ -237,9 +243,7 @@ export default function InputAddForm({
               type="text"
               label="Zoom link*"
               placeholder="Zoom link kiriting"
-              defaultValue={
-                editUser ? user.zoomLink.stringValue : "https://zoom.us/"
-              }
+              defaultValue={user?.zoomLink?.stringValue || "https://zoom.us/"}
               option={{
                 ...register("zoomLink", { required: true, minLength: 22 }),
               }}
@@ -253,6 +257,7 @@ export default function InputAddForm({
             <MultiSelect
               option={{ ...register("darsOtishDarajasi", { required: true }) }}
               placeholder="dars o'tish darajangiz"
+              defaultValue={newValue}
               label="Qaysi darajaga dars o’tishi*"
               list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
             />

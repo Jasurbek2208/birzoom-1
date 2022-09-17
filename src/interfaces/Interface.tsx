@@ -35,6 +35,7 @@ export interface ISelect {
   label?: string;
   placeholder: string;
   option?: {};
+  defaultValue?: string | any;
 }
 
 export interface ILoginContext {

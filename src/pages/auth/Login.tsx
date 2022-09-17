@@ -38,18 +38,19 @@ export default function Login(): any {
       .then((userCredential) => {
         // Signed in
         const user: any = userCredential.user;
-
-        localStorage.setItem("ISAUTH", "true");
         user.uid === "P4tftLAJjmcTezH1180YgFLvm2F3"
           ? localStorage.setItem("$TOKEN", "guest")
           : localStorage.setItem("$TOKEN", user?.stsTokenManager?.accessToken);
         if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
+
+        document.cookie = user?.stsTokenManager?.accessToken;
+        localStorage.setItem("ISAUTH", "true");
+        console.log(user);
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
+        console.log(error);
         localStorage.removeItem("ISAUTH");
         localStorage.removeItem("$TOKEN");
       });
