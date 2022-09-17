@@ -30,7 +30,6 @@ export default function Login(): any {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
 
   // Firebase ===============
   const userLogin = () => {
@@ -41,11 +40,10 @@ export default function Login(): any {
         user.uid === "P4tftLAJjmcTezH1180YgFLvm2F3"
           ? localStorage.setItem("$TOKEN", "guest")
           : localStorage.setItem("$TOKEN", user?.stsTokenManager?.accessToken);
+        document.cookie = user?.stsTokenManager?.accessToken;
         if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
-
-        document.cookie = user?.stsTokenManager?.accessToken;
         localStorage.setItem("ISAUTH", "true");
       })
       .catch((error) => {

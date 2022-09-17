@@ -121,14 +121,20 @@ export default function UserAboutPage({ user, setOpenAdd, setEditUser }: any) {
           </li>
           <li className="list">
             <p>Qiziqishlari:</p>{" "}
-            {/* <h3>{current?.qiziqishlari.stringValue}</h3> */}
+            <h3>
+              {current?.qiziqishlari?.arrayValue?.values?.map(
+                (i: any, idx: number) => {
+                  return (idx === 0 ? "" : ", ") + i?.stringValue;
+                }
+              )}
+            </h3>
           </li>
           <li className="list">
             <p>Shiori:</p> <h3>{current?.shior?.stringValue}</h3>
           </li>
           <li className="list">
             <p>Parol:</p> <h3 className="password">{hidePassword}</h3>
-            <span className="edit-password">Parolni o’zgartirish</span>
+            {/* <span className="edit-password">Parolni o’zgartirish</span> */}
           </li>
           <li className="list">
             <p>Rо’yxatdan o’tgan sana:</p>

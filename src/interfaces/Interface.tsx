@@ -36,7 +36,8 @@ export interface ISelect {
   label?: string;
   placeholder: string;
   option?: {};
-  defaultValue?: string | any;
+  defaultValue?: any;
+  newValue?: any;
 }
 
 export interface ILoginContext {
@@ -65,4 +66,5 @@ export interface IUsers {
   holati: string;
   img: string;
   royxatdanOtganSana: string;
+  qiziqishlari: String[];
 }

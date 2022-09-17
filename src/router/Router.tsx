@@ -11,22 +11,26 @@ import Teachers from "../pages/admin/teachers/Teachers";
 // Context
 import { LoginContext } from "../context/auth/LoginContext";
 import { ILoginContext } from "../interfaces/Interface";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../firebase";
+import { auth, db } from "../firebase";
 
 export default function Router() {
   const { isAuth, setIsAuth } = useContext<ILoginContext>(LoginContext);
-
-  const token = localStorage.getItem("$TOKEN");
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (token === "guest" || token === document.cookie) return;
-    localStorage.removeItem("ISAUTH");
-    localStorage.removeItem("$TOKEN");
-    setIsAuth(false);
-    navigate("/");
-  }, [isAuth]);
+  let token: any;
+  let user: any;
+
+  async function fetchFromAPI() {
+    if (user) {
+      token = user && (await user.getIdToken());
+    }
+    if (token !== document.cookie) {
+      localStorage.removeItem("ISAUTH");
+      localStorage.removeItem("$TOKEN");
+      setIsAuth(false);
+      navigate("/");
+    }
+  }
 
   if (!isAuth) {
     return (
@@ -35,6 +39,11 @@ export default function Router() {
         <Route path="*" element={<Navigate to="login" />} />
       </Routes>
     );
+  } else {
+    user = auth.currentUser;
+    if (user) {
+      fetchFromAPI();
+    }
   }
 
   return (

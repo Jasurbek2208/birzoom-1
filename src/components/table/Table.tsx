@@ -88,7 +88,7 @@ export default function DataTable({
         rowsPerPageOptions={[5]}
         checkboxSelection
         onSelectionModelChange={(e: any) => setUsersId(e)}
-        onRowDoubleClick={(e: any) => {
+        onRowClick={(e: any) => {
           if (token !== "guest") changeCurrentUser(e);
         }}
         style={{

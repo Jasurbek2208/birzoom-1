@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 // Interface
@@ -12,11 +12,15 @@ export default function MySelect({
   option,
   defaultValue,
 }: ISelect) {
-  const [selectValue, setSelectValue] = useState<string>(defaultValue || "");
+  const [selectValue, setSelectValue] = useState<string>("");
 
   function handleChange(e: any) {
     setSelectValue(e.target.value);
   }
+
+  useEffect(() => {
+    setSelectValue(defaultValue);
+  }, [defaultValue]);
 
   return (
     <StyledSelect>

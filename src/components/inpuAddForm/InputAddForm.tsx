@@ -18,22 +18,75 @@ import { IUsers } from "../../interfaces/Interface";
 // Images
 import ball from "../../assets/img/basketball 1.png";
 import MultiSelect from "../select/MultiSelect";
+import { useEffect, useState } from "react";
 
 export default function InputAddForm({
   setOpenAdd,
   user,
-  editUser,
+  // editUser,
   img,
   getUsers,
 }: any) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<IUsers>();
 
+  const [newValue, setNewValue] = useState<any>([]);
+  const [interests, setInterests] = useState([
+    "Futbol",
+    "Kitob o'qish",
+    "Uxlash",
+    "Kod yozish",
+    "Kino ko'rish",
+    "O'ynash",
+    "Yugurish",
+  ]);
+
+  let myInterests: any = [];
+  let myClass: any = "";
+
+  function joinInterests(i: string, e: any) {
+    e.target.className === ""
+      ? (e.target.className = "On")
+      : (e.target.className = "");
+
+    if (!myInterests.includes(i)) {
+      myInterests.push(i);
+    } else {
+      myInterests = myInterests.filter((j: any) => (j !== i ? true : false));
+    }
+    myClass = myInterests.join(" ");
+    console.log(myClass);
+  }
+
+  useEffect(() => {
+    if (!user) return;
+    let arrValue: string[] = [];
+    user.darsOtishDarajasi.arrayValue.values.map((i: any) => {
+      arrValue.push(i.stringValue);
+    });
+    setNewValue(arrValue);
+
+    reset({
+      ism: user.ism.stringValue,
+      familiya: user.familiya.stringValue,
+      manzil: user.manzil.stringValue,
+      telefonRaqam: user.telefonRaqam.stringValue,
+      parol: user.parol.stringValue,
+      tugilganSana: user.tugilganSana.stringValue,
+      tgUsername: user.tgUsername.stringValue,
+      kartaRaqam: user.kartaRaqam.stringValue,
+      shior: user.shior.stringValue,
+      zoomLink: user.zoomLink.stringValue,
+    });
+  }, [user]);
+
   const onSubmit: SubmitHandler<IUsers> = async (data) => {
     data.id = data.tgUsername + data.telefonRaqam;
+    data.qiziqishlari = myInterests;
     data.img = img;
 
     let month = new Date().getMonth();
@@ -63,24 +116,19 @@ export default function InputAddForm({
 
   const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
     data.id = user?.id?.stringValue;
+    data.qiziqishlari = myInterests;
     data.royxatdanOtganSana = user?.royxatdanOtganSana?.stringValue;
     img !== "" ? (data.img = img) : (data.img = user?.img?.stringValue);
 
     try {
       const docRef = doc(db, "users", user.uid);
-      setDoc(docRef, data);
+      await setDoc(docRef, data);
       getUsers();
       setOpenAdd(false);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
   };
-
-  let newValue: String[] = [];
-  user?.darsOtishDarajasi?.arrayValue?.values?.map((i: any) => {
-    newValue.push(i?.stringValue);
-  });
-
 
   return (
     <StyledInputForm>
@@ -91,7 +139,6 @@ export default function InputAddForm({
               type="text"
               label="Ism*"
               placeholder="ismingizni kiriting"
-              defaultValue={user?.ism?.stringValue}
               option={{ ...register("ism", { required: true }) }}
             />
             {errors.ism && <span className="error">Ism kiritilmadi !</span>}
@@ -102,7 +149,6 @@ export default function InputAddForm({
               type="text"
               label="Familiya*"
               placeholder="familiyangizni kiriting"
-              defaultValue={editUser ? user.familiya.stringValue : ""}
               option={{ ...register("familiya", { required: true }) }}
             />
             {errors.familiya && (
@@ -112,6 +158,7 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MySelect
+              defaultValue={user?.jinsi?.stringValue}
               option={{ ...register("jinsi", { required: true }) }}
               list={["erkak", "ayol"]}
               label="Jinsi*"
@@ -125,7 +172,6 @@ export default function InputAddForm({
               type="text"
               label="Manzil*"
               placeholder="manzilingizni kiriting"
-              defaultValue={editUser ? user.manzil.stringValue : ""}
               option={{ ...register("manzil", { required: true }) }}
             />
             {errors.manzil && (
@@ -138,7 +184,6 @@ export default function InputAddForm({
               type="tel"
               label="Telefon raqam*"
               placeholder="telefon raqamingizni kiriting"
-              defaultValue={editUser ? user.telefonRaqam.stringValue : ""}
               option={{ ...register("telefonRaqam", { required: true }) }}
             />
             {errors.telefonRaqam && (
@@ -151,7 +196,6 @@ export default function InputAddForm({
               type="password"
               label="Parol*"
               placeholder="Parolni kiriting"
-              defaultValue={editUser ? user.parol.stringValue : ""}
               option={{ ...register("parol", { required: true }) }}
             />
             {errors.parol && (
@@ -164,7 +208,6 @@ export default function InputAddForm({
               type="datetime-local"
               label="Tug’ilgan sana*"
               placeholder="tug'ilgan sanangizni kiriting"
-              defaultValue={editUser ? user.tugilganSana.stringValue : ""}
               option={{ ...register("tugilganSana", { required: true }) }}
             />
             {errors.tugilganSana && (
@@ -177,13 +220,13 @@ export default function InputAddForm({
               type="text"
               label="Telegram username"
               placeholder="telegram username'ingizni kiriting"
-              defaultValue={editUser ? user.tgUsername.stringValue : ""}
               option={{ ...register("tgUsername") }}
             />
           </div>
 
           <div className="input__wrapper">
             <MySelect
+              defaultValue={user?.faoliyatTuri?.stringValue}
               option={{ ...register("faoliyatTuri", { required: true }) }}
               placeholder="faoliyat turiingizni kiriting"
               label="Faoliyat turi*"
@@ -196,6 +239,7 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MySelect
+              defaultValue={user?.fani?.stringValue}
               option={{ ...register("fani", { required: true }) }}
               placeholder="faningizni kiriting"
               label="Fani*"
@@ -206,6 +250,7 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MySelect
+              defaultValue={user?.tilDarajasi?.stringValue}
               option={{ ...register("tilDarajasi", { required: true }) }}
               placeholder="til darajangizni kiriting"
               label="Til darajasi*"
@@ -221,7 +266,6 @@ export default function InputAddForm({
               type="number"
               label="Karta raqami"
               placeholder="karta raqamingizni kiriting"
-              defaultValue={editUser ? user.kartaRaqam.stringValue : ""}
               option={{ ...register("kartaRaqam") }}
             />
           </div>
@@ -231,7 +275,6 @@ export default function InputAddForm({
               type="text"
               label="Shiori*"
               placeholder="shioringizni kiriting"
-              defaultValue={editUser ? user.shior.stringValue : ""}
               option={{ ...register("shior", { required: true }) }}
             />
             {errors.shior && (
@@ -241,10 +284,10 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MySelect
+              defaultValue={user?.holati?.stringValue}
               option={{ ...register("holati", { required: true }) }}
               placeholder="holatingizni kiriting"
               label="Holati"
-              defaultValue={user?.holati?.stringValue || ""}
               list={["Faol", "Nofaol"]}
             />
             {errors.holati && (
@@ -257,7 +300,6 @@ export default function InputAddForm({
               type="text"
               label="Zoom link*"
               placeholder="Zoom link kiriting"
-              defaultValue={user?.zoomLink?.stringValue || "https://zoom.us/"}
               option={{
                 ...register("zoomLink", { required: true, minLength: 22 }),
               }}
@@ -269,9 +311,9 @@ export default function InputAddForm({
 
           <div className="input__wrapper">
             <MultiSelect
+              newValue={newValue}
               option={{ ...register("darsOtishDarajasi", { required: true }) }}
               placeholder="dars o'tish darajangiz"
-              defaultValue={newValue}
               label="Qaysi darajaga dars o’tishi*"
               list={["Boshlang'ich", "O'rtacha", "Kuchli"]}
             />
@@ -283,43 +325,18 @@ export default function InputAddForm({
         <div className="interests__wrapper">
           <p>Qiziqishlari</p>
           <div className="bottom-grid">
-            <div>
-              <img src={ball} alt="img" />
-              <small>Kitoblar</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Iqtisod</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
-            <div>
-              <img src={ball} alt="img" />
-              <small>Sayohat</small>
-            </div>
+            {interests.map((i: string) => {
+              return (
+                <div
+                  className={myClass}
+                  key={i}
+                  onClick={(e: any) => joinInterests(i, e)}
+                >
+                  <img src={ball} alt="img" />
+                  <div className="interests">{i}</div>
+                </div>
+              );
+            })}
           </div>
         </div>
         <div className="buttons__wrapper">
@@ -388,17 +405,22 @@ const StyledInputForm = styled.div`
         gap: 12px;
         flex-wrap: wrap;
 
-        div {
+        & > div {
           cursor: pointer;
-          padding: 10px 14px;
-          width: 72px;
-          height: 72px;
+          /* padding: 10px 0px; */
+          width: 85px;
+          height: 85px;
           display: flex;
           flex-direction: column;
           align-items: center;
+          justify-content: center;
           border: 1px solid #dcdce4;
           border-radius: 4px;
           transition: 0.2s;
+
+          &.On {
+            background-color: #32324d;
+          }
 
           &:hover {
             transform: scale(106%);
@@ -409,13 +431,11 @@ const StyledInputForm = styled.div`
             transform: translateY(2px);
           }
 
-          small {
-            font-size: 14px;
+          .interests {
             padding-top: 4px;
-            font-weight: 400;
+            text-align: center;
+            font-size: 13px;
             line-height: 20px;
-            letter-spacing: 0px;
-            text-align: left;
             color: #8e8ea9;
           }
         }

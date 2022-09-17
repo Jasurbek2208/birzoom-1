@@ -58,7 +58,6 @@ const StyledNavbar = styled.div`
   background: #fff;
   border-bottom: 1px solid #eaeaef;
   z-index: 5;
-  border: 1px solid red;
 
   &.On {
     width: calc(100vw - 60px);

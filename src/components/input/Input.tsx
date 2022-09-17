@@ -35,9 +35,9 @@ export default function Input({
         <input
           type={eyeType ? "text" : type}
           {...option}
-          defaultValue={defaultValue}
           placeholder={placeholder || ""}
           required={required}
+          onChange={onChange}
         />
       )}
       {placeholder === "Parolni kiriting" ? (
