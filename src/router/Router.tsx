@@ -11,26 +11,35 @@ import Teachers from "../pages/admin/teachers/Teachers";
 // Context
 import { LoginContext } from "../context/auth/LoginContext";
 import { ILoginContext } from "../interfaces/Interface";
-import { auth, db } from "../firebase";
+import { db } from "../firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Router() {
   const { isAuth, setIsAuth } = useContext<ILoginContext>(LoginContext);
   const navigate = useNavigate();
 
-  let token: any;
-  let user: any;
-
-  async function fetchFromAPI() {
-    if (user) {
-      token = user && (await user.getIdToken());
-    }
-    if (token !== document.cookie) {
-      localStorage.removeItem("ISAUTH");
-      localStorage.removeItem("$TOKEN");
-      setIsAuth(false);
-      navigate("/");
+  async function getUsersToken() {
+    let token: string = "";
+    try {
+      const res = await getDocs(collection(db, "admins"));
+      res.forEach((doc: any) => {
+        token =
+          doc._firestore._authCredentials.auth.auth.currentUser.accessToken;
+      });
+    } catch (error) {
+    } finally {
+      if (token !== document.cookie) {
+        localStorage.removeItem("ISAUTH");
+        localStorage.removeItem("$TOKEN");
+        setIsAuth(false);
+        navigate("/");
+      }
     }
   }
+
+  useEffect(() => {
+    getUsersToken();
+  }, [isAuth]);
 
   if (!isAuth) {
     return (
@@ -39,11 +48,6 @@ export default function Router() {
         <Route path="*" element={<Navigate to="login" />} />
       </Routes>
     );
-  } else {
-    user = auth.currentUser;
-    if (user) {
-      fetchFromAPI();
-    }
   }
 
   return (

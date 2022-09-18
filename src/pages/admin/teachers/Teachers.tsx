@@ -33,9 +33,7 @@ export default function Teachers() {
         list.push(doc);
       });
       setUsers(list);
-      console.log("get bo'ldi");
     } catch (error) {
-      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -98,14 +96,14 @@ export default function Teachers() {
         </div>
       </section>
       {/* ==================== */}
-        <DataTable
-          token={token}
-          users={users}
-          setUsersId={setUsersId}
-          setCurrentUser={setCurrentUser}
-          loading={loading}
-        />
-        {/* <div className="NoUsersImg">
+      <DataTable
+        token={token}
+        users={users}
+        setUsersId={setUsersId}
+        setCurrentUser={setCurrentUser}
+        loading={loading}
+      />
+      {/* <div className="NoUsersImg">
           <img src={NoUsersImg} alt="NoUsersImg" />
         </div> */}
       {token !== "guest" ? (
