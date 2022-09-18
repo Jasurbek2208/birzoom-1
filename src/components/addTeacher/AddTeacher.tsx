@@ -23,7 +23,6 @@ export default function ({
 
   async function setWallpaper(e: any) {
     const file: any = e.target.files[0];
-    console.log(file);
     const storageRef = ref(storage, "images/" + file.name);
 
     const uploadTask = uploadBytesResumable(storageRef, file);

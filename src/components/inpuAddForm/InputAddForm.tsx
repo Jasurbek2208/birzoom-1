@@ -31,9 +31,11 @@ export default function InputAddForm({
     register,
     handleSubmit,
     reset,
+    watch,
     formState: { errors },
   } = useForm<IUsers>();
 
+  const [error, setError] = useState<any>(false);
   const [newValue, setNewValue] = useState<any>([]);
   const [interests, setInterests] = useState([
     "Futbol",
@@ -59,7 +61,6 @@ export default function InputAddForm({
       myInterests = myInterests.filter((j: any) => (j !== i ? true : false));
     }
     myClass = myInterests.join(" ");
-    console.log(myInterests);
   }
 
   useEffect(() => {
@@ -115,8 +116,6 @@ export default function InputAddForm({
   };
 
   const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
-    console.log(user?.royxatdanOtganSana?.stringValue);
-    
     data.id = user?.id?.stringValue;
     data.qiziqishlari = myInterests;
     data.royxatdanOtganSana = user?.royxatdanOtganSana?.stringValue;
@@ -124,8 +123,6 @@ export default function InputAddForm({
 
     try {
       const docRef = doc(db, "users", user.uid);
-      console.log(data);
-      
       await setDoc(docRef, data);
       getUsers();
       setOpenAdd(false);
@@ -341,6 +338,9 @@ export default function InputAddForm({
                 </div>
               );
             })}
+            <span className={(error ? "On " : "") + "error"}>
+              qiziqishlar kamida 2ta, maksimum 5ta bo'lishi kerak !
+            </span>
           </div>
         </div>
         <div className="buttons__wrapper">
@@ -393,6 +393,22 @@ const StyledInputForm = styled.div`
 
     .interests__wrapper {
       margin-top: 24px;
+      position: relative;
+
+      .error {
+        display: none;
+
+        &.On {
+          display: block;
+          position: absolute;
+          left: 0px;
+          bottom: -22px;
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          color: #ee0000;
+        }
+      }
 
       p {
         font-size: 12px;

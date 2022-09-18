@@ -14,6 +14,7 @@ export default function Input({
   user,
   defaultValue,
   option,
+  error,
 }: IInput) {
   const [eyeType, setEyeType] = useState(false);
 
@@ -24,6 +25,7 @@ export default function Input({
       {label ? <label className={"inputLabel"}>{label}</label> : null}
       {value ? (
         <input
+          className={error ? "On" : ""}
           type={eyeType ? "text" : type}
           value={value}
           {...option}
@@ -33,6 +35,7 @@ export default function Input({
         />
       ) : (
         <input
+          className={error ? "On" : ""}
           type={eyeType ? "text" : type}
           {...option}
           placeholder={placeholder || ""}
@@ -73,6 +76,10 @@ const StyledInput = styled.div<any>`
     background: #fff;
     border: 1px solid #dcdce4;
     border-radius: 4px;
+
+    &.On {
+      border: 1px solid #ff0000;
+    }
 
     :focus {
       outline: 1px solid #00b7ff;

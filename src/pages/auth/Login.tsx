@@ -30,30 +30,33 @@ export default function Login(): any {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
 
   // Firebase ===============
   const userLogin = () => {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         // Signed in
+        setError(false);
         const user: any = userCredential.user;
         user.uid === "P4tftLAJjmcTezH1180YgFLvm2F3"
           ? localStorage.setItem("$TOKEN", "guest")
-          : localStorage.setItem("$TOKEN", user?.stsTokenManager?.accessToken);
+          : localStorage.setItem("$TOKEN", "token");
         document.cookie = user?.stsTokenManager?.accessToken;
         if (setIsAuth) setIsAuth(true);
         setEmail("");
         setPassword("");
         localStorage.setItem("ISAUTH", "true");
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        setError(true);
         localStorage.removeItem("ISAUTH");
         localStorage.removeItem("$TOKEN");
       });
   };
 
   function guestUser() {
+    setError(false);
     setEmail("guest@gmail.com");
     setPassword("guest2022");
   }
@@ -70,6 +73,7 @@ export default function Login(): any {
         </div>
         <form onSubmit={handleSubmit(userLogin)} className="form-wrapper">
           <Input
+            error={error}
             {...register("email", { required: true })}
             type="email"
             label="Email"
@@ -80,6 +84,7 @@ export default function Login(): any {
             }}
           />
           <Input
+            error={error}
             option={{
               ...register("password", {
                 required: true,
@@ -98,7 +103,9 @@ export default function Login(): any {
             }}
           />
           <MyCheckbox label="Remember me" required={true} />
-          {errors.exampleRequired && <span>This field is required</span>}
+          <span className={(error ? "On " : "") + "errorSpan"}>
+            Login yoki parol noto'g'ri !
+          </span>
           <Button onClick={userLogin} type="button">
             Login
           </Button>
@@ -162,10 +169,23 @@ const StyledLogin = styled.div`
     }
 
     .form-wrapper {
+      position: relative;
       width: 100%;
       display: flex;
       flex-direction: column;
       row-gap: 24px;
+
+      .errorSpan {
+        display: none;
+
+        &.On {
+          display: block;
+          position: absolute;
+          bottom: 0px;
+          color: #ff0000;
+          font-size: 14px;
+        }
+      }
 
       .guest__wrapper {
         padding: 0px 12px;

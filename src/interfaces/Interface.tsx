@@ -2,6 +2,7 @@ import { ChangeEventHandler } from "react";
 
 // Input interface
 export interface IInput {
+  error?: boolean;
   inputOn?: string;
   label?: string;
   option?: {};
