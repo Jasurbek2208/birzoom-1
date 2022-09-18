@@ -103,9 +103,11 @@ export default function Teachers() {
         setCurrentUser={setCurrentUser}
         loading={loading}
       />
-      {/* <div className="NoUsersImg">
+      {users.length === 0 ? (
+        <div className="NoUsersImg">
           <img src={NoUsersImg} alt="NoUsersImg" />
-        </div> */}
+        </div>
+      ) : null}
       {token !== "guest" ? (
         <AddTeacher
           editUser={editUser}
@@ -176,8 +178,15 @@ const StyledTeachers = styled.div`
 
   .NoUsersImg {
     padding-top: 50px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    img {
+      position: absolute;
+      top: -254px;
+      z-index: 10;
+    }
   }
 `;
