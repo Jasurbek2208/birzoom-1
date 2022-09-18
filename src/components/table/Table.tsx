@@ -43,7 +43,7 @@ export default function DataTable({
       width: 180,
     },
     {
-      field: "holat",
+      field: "holati",
       headerName: "HOLAT",
       width: 150,
     },
