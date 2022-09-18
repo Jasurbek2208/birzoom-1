@@ -59,7 +59,7 @@ export default function InputAddForm({
       myInterests = myInterests.filter((j: any) => (j !== i ? true : false));
     }
     myClass = myInterests.join(" ");
-    console.log(myClass);
+    console.log(myInterests);
   }
 
   useEffect(() => {
@@ -115,6 +115,8 @@ export default function InputAddForm({
   };
 
   const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
+    console.log(user?.royxatdanOtganSana?.stringValue);
+    
     data.id = user?.id?.stringValue;
     data.qiziqishlari = myInterests;
     data.royxatdanOtganSana = user?.royxatdanOtganSana?.stringValue;
@@ -122,6 +124,8 @@ export default function InputAddForm({
 
     try {
       const docRef = doc(db, "users", user.uid);
+      console.log(data);
+      
       await setDoc(docRef, data);
       getUsers();
       setOpenAdd(false);
