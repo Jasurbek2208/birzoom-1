@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import ReactHTMLTableToExcel from "react-html-table-to-excel";
 
 // Firebase get users
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "../../../firebase";
 
 // Images
-import NoUsersImg from "../../../assets/img/backgroundEye.png";
+import NoUsersImg from "../../../assets/img/backgroundEye.png"; 
 
 // Components
 import Button from "../../../components/button/Button";
@@ -77,8 +78,14 @@ export default function Teachers() {
           <p>{users.length} ta o’qituvchi</p>
         </div>
         <div className="right">
-          <div className={(token === "guest" ? "guest " : "") + "icon-wrapper"}>
-            <p>Excel</p>
+          <div>
+            <ReactHTMLTableToExcel
+              className={(token === "guest" ? "guest " : "") + "icon-wrapper"}
+              table="usersTable"
+              filename="teachersTable"
+              sheet="sheet"
+              buttonText="Excel"
+            />
           </div>
           {usersId[0] ? (
             <Button type="button" token={token} onClick={deleteUsers}>
@@ -102,6 +109,7 @@ export default function Teachers() {
         setUsersId={setUsersId}
         setCurrentUser={setCurrentUser}
         loading={loading}
+        id="usersTable"
       />
       {users.length === 0 ? (
         <div className="NoUsersImg">

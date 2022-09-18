@@ -3,6 +3,7 @@ import { DataGrid, GridColDef } from "@mui/x-data-grid";
 
 // Interface
 import { IAboutUser } from "../userAbout/UserAboutPage";
+import styled from "styled-components";
 
 export default function DataTable({
   users,
@@ -10,8 +11,9 @@ export default function DataTable({
   setCurrentUser,
   token,
   loading,
+  id,
 }: any) {
-  const columns: GridColDef[] = [
+  const columns: any = [
     { field: "id", headerName: "ID", width: 110 },
     {
       field: "img",
@@ -110,22 +112,91 @@ export default function DataTable({
   }, [users]);
 
   return (
-    <div style={{ height: 400, width: "100%" }}>
-      <DataGrid
-        loading={loading}
-        rows={rows}
-        columns={columns}
-        pageSize={5}
-        rowsPerPageOptions={[5]}
-        checkboxSelection
-        onSelectionModelChange={(e: any) => setUsersId(e)}
-        onRowClick={(e: any) => {
-          if (token !== "guest") changeCurrentUser(e);
-        }}
-        style={{
-          backgroundColor: "#fff",
-        }}
-      />
-    </div>
+    <>
+      <div style={{ height: 400, width: "100%" }}>
+        <DataGrid
+          loading={loading}
+          rows={rows}
+          columns={columns}
+          pageSize={5}
+          rowsPerPageOptions={[5]}
+          checkboxSelection
+          onSelectionModelChange={(e: any) => setUsersId(e)}
+          onRowClick={(e: any) => {
+            if (token !== "guest") changeCurrentUser(e);
+          }}
+          style={{
+            backgroundColor: "#fff",
+          }}
+        />
+      </div>
+
+      <StyledTable id="usersTable" style={{ height: 400, width: "100%" }}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>ISM</th>
+            <th>FAMILIYA</th>
+            <th>HUDUD</th>
+            <th>TIL</th>
+            <th>FAOLIYAT TURI</th>
+            <th>TIL DARAJASI</th>
+            <th>TELEFON RAQAM</th>
+            <th>HOLAT</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((i: any) => {
+            return (
+              <tr>
+                <td>{i.id}</td>
+                <td>{i.ism}</td>
+                <td>{i.familiya}</td>
+                <td>{i.manzil}</td>
+                <td>{i.fani}</td>
+                <td>{i.faoliyatTuri}</td>
+                <td>{i.tilDarajasi}</td>
+                <td>{i.telefonRaqam}</td>
+                <td>{i.holati}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </StyledTable>
+    </>
   );
 }
+
+const StyledTable = styled.table`
+  background-color: #fff;
+  display: none;
+  
+  thead {
+    tr {
+      th {
+        width: 180px;
+        text-align: left;
+
+        &:first-of-type {
+          max-width: 100px !important;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      td {
+        min-width: 180px;
+        text-align: left;
+
+        &:first-of-type {
+          min-width: 90px;
+          max-width: 92px !important;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+`;
