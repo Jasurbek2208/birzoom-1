@@ -46,6 +46,37 @@ export default function DataTable({
       field: "holati",
       headerName: "HOLAT",
       width: 150,
+      renderCell: (params: any) => {
+        return params.row.holati === "Faol" ? (
+          <div
+            style={{
+              background: "rgba(0, 188, 150, 0.1)",
+              borderRadius: "24px",
+              padding: "2px 16px",
+              fontWeight: "500",
+              fontSize: "14px",
+              lineHeight: "24px",
+              color: "#00BC96",
+            }}
+          >
+            {params.row.holati}
+          </div>
+        ) : (
+          <div
+            style={{
+              background: "rgba(235, 87, 87, 0.1)",
+              borderRadius: "24px",
+              padding: "2px 16px",
+              fontWeight: "500",
+              fontSize: "14px",
+              lineHeight: "24px",
+              color: "#EB5757",
+            }}
+          >
+            {params.row.holati}
+          </div>
+        );
+      },
     },
   ];
 
