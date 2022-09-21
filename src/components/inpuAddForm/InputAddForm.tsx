@@ -19,6 +19,7 @@ import { IUsers } from "../../interfaces/Interface";
 import ball from "../../assets/img/basketball 1.png";
 import MultiSelect from "../select/MultiSelect";
 import { useEffect, useState } from "react";
+import Loading from "./Loading";
 
 export default function InputAddForm({
   setOpenAdd,
@@ -36,6 +37,7 @@ export default function InputAddForm({
   } = useForm<IUsers>();
 
   const [error, setError] = useState<any>(false);
+  const [loading, setLoading] = useState(false);
   const [newValue, setNewValue] = useState<any>([]);
   const [interests, setInterests] = useState([
     "Futbol",
@@ -47,20 +49,14 @@ export default function InputAddForm({
     "Yugurish",
   ]);
 
-  let myInterests: any = [];
-  let myClass: any = "";
+  const [myClass, setMyClass] = useState<String[]>([]);
 
   function joinInterests(i: string, e: any) {
-    e.target.className === ""
-      ? (e.target.className = "On")
-      : (e.target.className = "");
-
-    if (!myInterests.includes(i)) {
-      myInterests.push(i);
+    if (!myClass.includes(i)) {
+      setMyClass((p) => [...p, i]);
     } else {
-      myInterests = myInterests.filter((j: any) => (j !== i ? true : false));
+      setMyClass((p) => p.filter((j: any) => (j !== i ? true : false)));
     }
-    myClass = myInterests.join(" ");
   }
 
   useEffect(() => {
@@ -86,8 +82,9 @@ export default function InputAddForm({
   }, [user]);
 
   const onSubmit: SubmitHandler<IUsers> = async (data) => {
+    setLoading(true);
     data.id = data.tgUsername + data.telefonRaqam;
-    data.qiziqishlari = myInterests;
+    data.qiziqishlari = myClass;
     data.img = img;
 
     let month = new Date().getMonth();
@@ -112,12 +109,15 @@ export default function InputAddForm({
       setOpenAdd(false);
     } catch (e) {
       console.error("Error adding document: ", e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const onSubmitUpdate: SubmitHandler<IUsers> = async (data) => {
+    setLoading(true);
     data.id = user?.id?.stringValue;
-    data.qiziqishlari = myInterests;
+    data.qiziqishlari = myClass;
     data.royxatdanOtganSana = user?.royxatdanOtganSana?.stringValue;
     img !== "" ? (data.img = img) : (data.img = user?.img?.stringValue);
 
@@ -128,6 +128,8 @@ export default function InputAddForm({
       setOpenAdd(false);
     } catch (e) {
       console.error("Error adding document: ", e);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -329,7 +331,7 @@ export default function InputAddForm({
             {interests.map((i: string) => {
               return (
                 <div
-                  className={myClass}
+                  className={myClass.includes(i) ? "On" : ""}
                   key={i}
                   onClick={(e: any) => joinInterests(i, e)}
                 >
@@ -357,6 +359,8 @@ export default function InputAddForm({
           </Button>
         </div>
       </form>
+
+      {loading ? <Loading /> : null}
     </StyledInputForm>
   );
 }
@@ -427,6 +431,7 @@ const StyledInputForm = styled.div`
 
         & > div {
           cursor: pointer;
+          position: relative;
           /* padding: 10px 0px; */
           width: 85px;
           height: 85px;
@@ -437,8 +442,10 @@ const StyledInputForm = styled.div`
           border: 1px solid #dcdce4;
           border-radius: 4px;
           transition: 0.2s;
+          background-color: #fff0;
 
           &.On {
+            z-index: 0;
             background-color: #32324d;
           }
 
